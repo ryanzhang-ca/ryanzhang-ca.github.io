@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Ryan Zhang — Mechatronics Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Light theme = "blueline" drafting paper: navy ink on vellum */
+    --bg: #EEF2F5;
+    --bg-raised: #E4EAEE;
+    --ink: #1D3557;
+    --ink-soft: #3C5A7A;
+    --muted: #5B6B7A;
+    --accent: #C9501E;
+    --accent-soft: #C9501E22;
+    --line: rgba(29,53,87,0.22);
+    --line-faint: rgba(29,53,87,0.10);
+    --wire-power: #1D3557;
+    --wire-signal: #C9501E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141B;
+      --bg-raised: #141C25;
+      --ink: #E7ECF1;
+      --ink-soft: #B9C6D2;
+      --muted: #8FA0B0;
+      --accent: #FF7A3D;
+      --accent-soft: #FF7A3D22;
+      --line: rgba(231,236,241,0.18);
+      --line-faint: rgba(231,236,241,0.08);
+      --wire-power: #E7ECF1;
+      --wire-signal: #FF7A3D;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141B;
+    --bg-raised: #141C25;
+    --ink: #E7ECF1;
+    --ink-soft: #B9C6D2;
+    --muted: #8FA0B0;
+    --accent: #FF7A3D;
+    --accent-soft: #FF7A3D22;
+    --line: rgba(231,236,241,0.18);
+    --line-faint: rgba(231,236,241,0.08);
+    --wire-power: #E7ECF1;
+    --wire-signal: #FF7A3D;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: auto; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(var(--line-faint) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-faint) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .sheet {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover, a:focus-visible { border-bottom-color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  /* ---------- title block ---------- */
+  .titleblock {
+    border: 1.5px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background: var(--bg-raised);
+  }
+  .titleblock-main {
+    padding: 28px 26px;
+    border-right: 1.5px solid var(--ink);
+  }
+  .titleblock-main h1 {
+    margin: 0;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .titleblock-main p {
+    margin: 6px 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(15px, 2.2vw, 18px);
+  }
+  .titleblock-meta {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    min-width: 168px;
+  }
+  .titleblock-meta div {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+  }
+  .titleblock-meta div:last-child { border-bottom: none; }
+  .titleblock-meta span.v { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 620px) {
+    .titleblock { grid-template-columns: 1fr; }
+    .titleblock-main { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .titleblock-meta { grid-template-rows: none; }
+  }
+
+  /* ---------- dimension-line divider ---------- */
+  .dim-rule {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 52px 0 24px;
+    color: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  .dim-rule::before, .dim-rule::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    position: relative;
+  }
+  .dim-rule::before { background-image: linear-gradient(var(--ink) 0 100%); background-repeat: no-repeat; background-size: 1px 8px; background-position: right center; }
+  .dim-rule::after { background-image: linear-gradient(var(--ink) 0 100%); background-repeat: no-repeat; background-size: 1px 8px; background-position: left center; }
+
+  section > .intro {
+    max-width: 62ch;
+    font-size: 17px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- hero diagram ---------- */
+  .hero-diagram { margin-top: 30px; }
+  .hero-diagram svg { width: 100%; height: auto; display: block; }
+  .wire-power { stroke: var(--wire-power); stroke-width: 1.6; fill: none; }
+  .wire-signal { stroke: var(--wire-signal); stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; }
+  .node-box { fill: var(--bg-raised); stroke: var(--ink); stroke-width: 1.4; }
+  .node-title { font-family: "IBM Plex Mono", monospace; font-size: 12px; fill: var(--ink); font-weight: 600; }
+  .node-sub { font-family: "IBM Plex Sans", sans-serif; font-size: 10.5px; fill: var(--muted); }
+  .legend-text { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--muted); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wire-draw { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw 1.4s ease-out forwards; }
+    .wire-draw.signal { stroke-dasharray: 5 4, 400; animation: draw-signal 1.4s ease-out forwards; }
+    .node-fade { opacity: 0; animation: fadein 0.5s ease-out forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes draw-signal { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadein { to { opacity: 1; } }
+  }
+
+  /* ---------- project sheets ---------- */
+  .project {
+    border: 1.5px solid var(--ink);
+    margin-bottom: 34px;
+    position: relative;
+    background: var(--bg-raised);
+  }
+  .project::before, .project::after,
+  .project .corner-br::before, .project .corner-br::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--accent);
+  }
+  .project::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+  .project::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+  .project .corner-br::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+  .project .corner-br::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+  .project-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .project-head h3 { margin: 0; font-size: 21px; font-weight: 600; }
+  .project-head .role { color: var(--muted); font-size: 13.5px; font-family: "IBM Plex Mono", monospace; }
+  .project-body { padding: 20px 24px 26px; }
+  .project-body p.overview { margin-top: 0; color: var(--ink-soft); max-width: 68ch; }
+
+  .project ul { padding-left: 0; margin: 18px 0 0; list-style: none; }
+  .project li {
+    padding: 10px 0 10px 22px;
+    border-top: 1px solid var(--line-faint);
+    position: relative;
+    font-size: 15px;
+  }
+  .project li:first-child { border-top: none; }
+  .project li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .spec-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .spec {
+    flex: 1 1 140px;
+    padding: 12px 16px;
+    border-right: 1px solid var(--line);
+  }
+  .spec:last-child { border-right: none; }
+  .spec .k { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .spec .v { font-size: 17px; font-weight: 600; margin-top: 3px; }
+
+  /* ---------- BOM table ---------- */
+  table.bom { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  table.bom caption { text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  table.bom th, table.bom td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  table.bom th { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 1.5px solid var(--ink); }
+  table.bom td.ref { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-weight: 600; }
+  table.bom tr:last-child td { border-bottom: 1.5px solid var(--ink); }
+  .bom-wrap { overflow-x: auto; }
+
+  /* ---------- footer title block ---------- */
+  footer {
+    margin-top: 60px;
+    border: 1.5px solid var(--ink);
+    padding: 20px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 14px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer .links a { color: var(--ink); margin-right: 18px; }
+  footer .links a:hover { color: var(--accent); }
+
+  .status-pill {
+    display: inline-block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 9px;
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="titleblock">
+    <div class="titleblock-main">
+      <h1>Ryan Zhang</h1>
+      <p>Mechatronics Engineering</p>
+      <span class="status-pill">Seeking co-op / internship — Fall 2027</span>
+    </div>
+    <div class="titleblock-meta">
+      <div>Sheet <span class="v">1 / 1</span></div>
+      <div>Drawn by <span class="v">R. Zhang</span></div>
+      <div>Rev <span class="v">1.0</span></div>
+      <div>Date <span class="v">2026</span></div>
+    </div>
+  </div>
+
+  <div class="dim-rule">SYSTEM OVERVIEW</div>
+
+  <p class="intro">
+    I build systems that sit across mechanical, electrical, and software boundaries — from power
+    distribution and switching circuits to the flight and control code that runs on top of them.
+    Below is the architecture of my current project, an autonomous payload-carrying quadcopter,
+    followed by the rest of my work.
+  </p>
+
+  <div class="hero-diagram" role="img" aria-label="Block diagram of the quadcopter system: a LiPo battery powers a UBEC and the ESCs; the UBEC powers the Raspberry Pi; the Pixhawk flight controller communicates with the Raspberry Pi and a GPS module; the Raspberry Pi switches a MOSFET driver to actuate a water pump; the ESCs drive the brushless motors.">
+    <svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- wires (power = solid, signal = dashed) -->
+      <path class="wire-power wire-draw" d="M150,80 L150,150" />
+      <path class="wire-power wire-draw" d="M150,80 L150,55 L340,55 L340,80" style="animation-delay:0.1s" />
+      <path class="wire-signal wire-draw signal" d="M660,80 L570,80 L570,150" style="animation-delay:0.2s" />
+      <path class="wire-signal wire-draw signal" d="M480,175 L570,175" style="animation-delay:0.3s" />
+      <path class="wire-power wire-draw" d="M210,175 L340,175" style="animation-delay:0.15s" />
+      <path class="wire-power wire-draw" d="M150,205 L150,285" style="animation-delay:0.25s" />
+      <path class="wire-power wire-draw" d="M150,340 L150,395 M90,340 L210,340 L210,395" style="animation-delay:0.35s" />
+      <path class="wire-signal wire-draw signal" d="M400,205 L400,285" style="animation-delay:0.3s" />
+      <path class="wire-power wire-draw" d="M660,205 L660,285" style="animation-delay:0.4s" />
+
+      <!-- BT1 LiPo -->
+      <g class="node-fade">
+        <rect class="node-box" x="80" y="30" width="140" height="50" />
+        <text class="node-title" x="96" y="50">BT1</text>
+        <text class="node-sub" x="96" y="66">11.1V 3S LiPo</text>
+      </g>
+
+      <!-- U2 Pixhawk -->
+      <g class="node-fade" style="animation-delay:0.1s">
+        <rect class="node-box" x="340" y="30" width="140" height="50" />
+        <text class="node-title" x="356" y="50">U2</text>
+        <text class="node-sub" x="356" y="66">Pixhawk 6C (FC)</text>
+      </g>
+
+      <!-- GPS1 -->
+      <g class="node-fade" style="animation-delay:0.15s">
+        <rect class="node-box" x="590" y="30" width="140" height="50" />
+        <text class="node-title" x="606" y="50">GPS1</text>
+        <text class="node-sub" x="606" y="66">M10 GPS module</text>
+      </g>
+
+      <!-- PS1 UBEC -->
+      <g class="node-fade" style="animation-delay:0.2s">
+        <rect class="node-box" x="80" y="150" width="130" height="55" />
+        <text class="node-title" x="96" y="172">PS1</text>
+        <text class="node-sub" x="96" y="189">5V UBEC</text>
+      </g>
+
+      <!-- U1 Raspberry Pi -->
+      <g class="node-fade" style="animation-delay:0.25s">
+        <rect class="node-box" x="340" y="150" width="140" height="55" />
+        <text class="node-title" x="356" y="172">U1</text>
+        <text class="node-sub" x="356" y="189">Raspberry Pi (companion)</text>
+      </g>
+
+      <!-- Q1 MOSFET -->
+      <g class="node-fade" style="animation-delay:0.3s">
+        <rect class="node-box" x="590" y="150" width="140" height="55" />
+        <text class="node-title" x="606" y="172">Q1</text>
+        <text class="node-sub" x="606" y="189">IRF520 MOSFET driver</text>
+      </g>
+
+      <!-- ESC bank -->
+      <g class="node-fade" style="animation-delay:0.35s">
+        <rect class="node-box" x="80" y="285" width="140" height="55" />
+        <text class="node-title" x="96" y="307">ESC1–4</text>
+        <text class="node-sub" x="96" y="324">4× ESC</text>
+      </g>
+
+      <!-- OpenCV pipeline (child of U1, dashed down) -->
+      <g class="node-fade" style="animation-delay:0.4s">
+        <rect class="node-box" x="330" y="285" width="160" height="55" />
+        <text class="node-title" x="346" y="307">SW1</text>
+        <text class="node-sub" x="346" y="324">OpenCV detection (WIP)</text>
+      </g>
+
+      <!-- Pump -->
+      <g class="node-fade" style="animation-delay:0.45s">
+        <rect class="node-box" x="590" y="285" width="140" height="55" />
+        <text class="node-title" x="606" y="307">PUMP1</text>
+        <text class="node-sub" x="606" y="324">Water-pump payload</text>
+      </g>
+
+      <!-- Motors -->
+      <g class="node-fade" style="animation-delay:0.5s">
+        <rect class="node-box" x="65" y="395" width="170" height="30" />
+        <text class="node-sub" x="82" y="415">M1–M4 · Brushless motors</text>
+      </g>
+
+      <!-- legend -->
+      <line x1="360" y1="410" x2="390" y2="410" class="wire-power" />
+      <text class="legend-text" x="396" y="414">power</text>
+      <line x1="470" y1="410" x2="500" y2="410" class="wire-signal" />
+      <text class="legend-text" x="506" y="414">signal / data</text>
+    </svg>
+  </div>
+
+  <div class="dim-rule">PROJECTS</div>
+
+  <div class="project">
+    <div class="project-head">
+      <h3>Autonomous Payload Quadcopter</h3>
+      <span class="role">Jun 2026 – Present · Independent build</span>
+    </div>
+    <div class="project-body">
+      <p class="overview">
+        A self-built F450-frame quadcopter designed to carry and release a liquid payload with no
+        operator input. The build splits work across three domains: a Pixhawk 6C handles low-level
+        flight control while a Raspberry Pi companion computer takes on vision and payload logic,
+        keeping camera and detection workloads off the flight-control loop.
+      </p>
+      <ul>
+        <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision processing never competes with the flight-control loop for cycles.</li>
+        <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from Pi GPIO, isolating logic-level signals from pump inrush current to prevent brownouts on the companion computer.</li>
+        <li>Built the power distribution scheme around a 5V UBEC, separating the logic rail from high-current ESC loads so onboard electronics stay stable through full-throttle draw.</li>
+        <li>In progress: M10 GPS integration for Pixhawk waypoint navigation, plus an OpenCV detection pipeline on the Pi for autonomous target tracking and payload release.</li>
+      </ul>
+      <div class="spec-row">
+        <div class="spec"><div class="k">Frame</div><div class="v">F450</div></div>
+        <div class="spec"><div class="k">Battery</div><div class="v">11.1V 3S LiPo</div></div>
+        <div class="spec"><div class="k">Flight controller</div><div class="v">Pixhawk 6C</div></div>
+        <div class="spec"><div class="k">Companion compute</div><div class="v">Raspberry Pi</div></div>
+        <div class="spec"><div class="k">Status</div><div class="v">In development</div></div>
+      </div>
+    </div>
+    <span class="corner-br"></span>
+  </div>
+
+  <div class="project">
+    <div class="project-head">
+      <h3>Lunate Studios</h3>
+      <span class="role">Jul 2026 – Present · Co-Founder &amp; Lead Developer</span>
+    </div>
+    <div class="project-body">
+      <p class="overview">
+        Not a mechatronics project, but the closest thing I have to shipped-product engineering
+        experience: co-founded a small studio and led backend development across four published
+        Roblox games, taking systems from design through live operation at real scale.
+      </p>
+      <ul>
+        <li>Architected persistent backend systems in Luau (DataStoreService, OrderedDataStores) for player progression, global leaderboards, inventories, and in-game economies, holding up reliably at peak concurrency.</li>
+        <li>Instrumented custom player analytics and used session drop-off data to redesign onboarding, lifting tutorial completion from 24% to over 70%.</li>
+        <li>Built raycasting- and physics-based gameplay systems with co-founders, splitting feature ownership and cross-reviewing code to ship on a consistent release cadence.</li>
+      </ul>
+      <div class="spec-row">
+        <div class="spec"><div class="k">Titles shipped</div><div class="v">4</div></div>
+        <div class="spec"><div class="k">Total visits</div><div class="v">6.8M+</div></div>
+        <div class="spec"><div class="k">Peak concurrent</div><div class="v">9K+</div></div>
+        <div class="spec"><div class="k">Revenue</div><div class="v">$65K+</div></div>
+        <div class="spec"><div class="k">Tutorial completion</div><div class="v">24%→70%+</div></div>
+      </div>
+    </div>
+    <span class="corner-br"></span>
+  </div>
+
+  <div class="dim-rule">BILL OF MATERIALS — SKILLS</div>
+
+  <div class="bom-wrap">
+    <table class="bom">
+      <caption>Components and tools referenced across current projects</caption>
+      <thead>
+        <tr><th>Ref</th><th>Component / tool</th><th>Domain</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ref">FR1</td><td>F450 quadcopter airframe</td><td>Mechanical</td></tr>
+        <tr><td class="ref">M1–M4</td><td>Brushless motors + ESCs</td><td>Mechanical / Electrical</td></tr>
+        <tr><td class="ref">BT1</td><td>11.1V 3S LiPo pack</td><td>Electrical — power</td></tr>
+        <tr><td class="ref">PS1</td><td>5V UBEC</td><td>Electrical — power</td></tr>
+        <tr><td class="ref">Q1</td><td>IRF520 MOSFET driver</td><td>Electrical — switching</td></tr>
+        <tr><td class="ref">U2</td><td>Pixhawk 6C flight controller</td><td>Electrical / Controls</td></tr>
+        <tr><td class="ref">GPS1</td><td>M10 GPS module</td><td>Electrical — navigation</td></tr>
+        <tr><td class="ref">U1</td><td>Raspberry Pi (companion computer)</td><td>Software / Compute</td></tr>
+        <tr><td class="ref">SW1</td><td>Python + OpenCV</td><td>Software — vision</td></tr>
+        <tr><td class="ref">SW2</td><td>Luau + DataStoreService</td><td>Software — backend</td></tr>
+        <tr><td class="ref">CTL1</td><td>PID / waypoint control (Pixhawk)</td><td>Controls</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <div class="links">
+      <a href="mailto:ryan.zhang@email.com">ryan.zhang@email.com</a>
+      <a href="https://github.com/ryanzhang" target="_blank" rel="noopener">github.com/ryanzhang</a>
+      <a href="https://linkedin.com/in/ryanzhang" target="_blank" rel="noopener">linkedin.com/in/ryanzhang</a>
+    </div>
+    <div>Rev. 1.0 — 2026</div>
+  </footer>
+
+</div>
+</body>
+</html>
