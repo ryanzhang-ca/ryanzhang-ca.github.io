@@ -3,487 +3,328 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Ryan Zhang — Mechatronics Engineering</title>
+<title>Ryan Zhang - Mechatronics Engineering</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    box-sizing: border-box;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-
-    /* Light theme = "blueline" drafting paper: navy ink on vellum */
-    --bg: #EEF2F5;
-    --bg-raised: #E4EAEE;
-    --ink: #1D3557;
-    --ink-soft: #3C5A7A;
-    --muted: #5B6B7A;
-    --accent: #C9501E;
-    --accent-soft: #C9501E22;
-    --line: rgba(29,53,87,0.22);
-    --line-faint: rgba(29,53,87,0.10);
-    --wire-power: #1D3557;
-    --wire-signal: #C9501E;
+    --bg: #FFFFFF;
+    --bg-alt: #F5F7FA;
+    --ink: #12181F;
+    --muted: #5B6670;
+    --accent: #3457D5;
+    --accent-soft: #3457D51A;
+    --line: #E4E8ED;
+    --card: #FFFFFF;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0E141B;
-      --bg-raised: #141C25;
-      --ink: #E7ECF1;
-      --ink-soft: #B9C6D2;
-      --muted: #8FA0B0;
-      --accent: #FF7A3D;
-      --accent-soft: #FF7A3D22;
-      --line: rgba(231,236,241,0.18);
-      --line-faint: rgba(231,236,241,0.08);
-      --wire-power: #E7ECF1;
-      --wire-signal: #FF7A3D;
+      --bg: #0B0F14;
+      --bg-alt: #10151C;
+      --ink: #EDEFF3;
+      --muted: #93A0AC;
+      --accent: #6C8CFF;
+      --accent-soft: #6C8CFF22;
+      --line: #212933;
+      --card: #10151C;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0E141B;
-    --bg-raised: #141C25;
-    --ink: #E7ECF1;
-    --ink-soft: #B9C6D2;
-    --muted: #8FA0B0;
-    --accent: #FF7A3D;
-    --accent-soft: #FF7A3D22;
-    --line: rgba(231,236,241,0.18);
-    --line-faint: rgba(231,236,241,0.08);
-    --wire-power: #E7ECF1;
-    --wire-signal: #FF7A3D;
+    --bg: #0B0F14; --bg-alt: #10151C; --ink: #EDEFF3; --muted: #93A0AC;
+    --accent: #6C8CFF; --accent-soft: #6C8CFF22; --line: #212933; --card: #10151C;
   }
 
   * { box-sizing: border-box; }
-  html, body { height: auto; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    background-image:
-      linear-gradient(var(--line-faint) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line-faint) 1px, transparent 1px);
-    background-size: 32px 32px;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
+  a { color: var(--accent); text-decoration: none; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
 
-  .sheet {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 28px 24px 60px;
-  }
-
-  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
-  a:hover, a:focus-visible { border-bottom-color: var(--accent); }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
-
-  /* ---------- title block ---------- */
-  .titleblock {
-    border: 1.5px solid var(--ink);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    background: var(--bg-raised);
-  }
-  .titleblock-main {
-    padding: 28px 26px;
-    border-right: 1.5px solid var(--ink);
-  }
-  .titleblock-main h1 {
-    margin: 0;
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-  .titleblock-main p {
-    margin: 6px 0 0;
-    color: var(--ink-soft);
-    font-size: clamp(15px, 2.2vw, 18px);
-  }
-  .titleblock-meta {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 12px;
-    display: grid;
-    grid-template-rows: repeat(4, 1fr);
-    min-width: 168px;
-  }
-  .titleblock-meta div {
-    padding: 8px 14px;
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    color: var(--muted);
-  }
-  .titleblock-meta div:last-child { border-bottom: none; }
-  .titleblock-meta span.v { color: var(--ink); font-weight: 500; }
-
-  @media (max-width: 620px) {
-    .titleblock { grid-template-columns: 1fr; }
-    .titleblock-main { border-right: none; border-bottom: 1.5px solid var(--ink); }
-    .titleblock-meta { grid-template-rows: none; }
-  }
-
-  /* ---------- dimension-line divider ---------- */
-  .dim-rule {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 52px 0 24px;
-    color: var(--muted);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-  }
-  .dim-rule::before, .dim-rule::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--line);
-    position: relative;
-  }
-  .dim-rule::before { background-image: linear-gradient(var(--ink) 0 100%); background-repeat: no-repeat; background-size: 1px 8px; background-position: right center; }
-  .dim-rule::after { background-image: linear-gradient(var(--ink) 0 100%); background-repeat: no-repeat; background-size: 1px 8px; background-position: left center; }
-
-  section > .intro {
-    max-width: 62ch;
-    font-size: 17px;
-    color: var(--ink-soft);
-  }
-
-  /* ---------- hero diagram ---------- */
-  .hero-diagram { margin-top: 30px; }
-  .hero-diagram svg { width: 100%; height: auto; display: block; }
-  .wire-power { stroke: var(--wire-power); stroke-width: 1.6; fill: none; }
-  .wire-signal { stroke: var(--wire-signal); stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; }
-  .node-box { fill: var(--bg-raised); stroke: var(--ink); stroke-width: 1.4; }
-  .node-title { font-family: "IBM Plex Mono", monospace; font-size: 12px; fill: var(--ink); font-weight: 600; }
-  .node-sub { font-family: "IBM Plex Sans", sans-serif; font-size: 10.5px; fill: var(--muted); }
-  .legend-text { font-family: "IBM Plex Mono", monospace; font-size: 11px; fill: var(--muted); }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .wire-draw { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw 1.4s ease-out forwards; }
-    .wire-draw.signal { stroke-dasharray: 5 4, 400; animation: draw-signal 1.4s ease-out forwards; }
-    .node-fade { opacity: 0; animation: fadein 0.5s ease-out forwards; }
-    @keyframes draw { to { stroke-dashoffset: 0; } }
-    @keyframes draw-signal { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadein { to { opacity: 1; } }
-  }
-
-  /* ---------- project sheets ---------- */
-  .project {
-    border: 1.5px solid var(--ink);
-    margin-bottom: 34px;
-    position: relative;
-    background: var(--bg-raised);
-  }
-  .project::before, .project::after,
-  .project .corner-br::before, .project .corner-br::after {
-    content: "";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border: 2px solid var(--accent);
-  }
-  .project::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-  .project::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-  .project .corner-br::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-  .project .corner-br::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-
-  .project-head {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 8px;
-    padding: 18px 24px;
+  /* nav */
+  nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line);
   }
-  .project-head h3 { margin: 0; font-size: 21px; font-weight: 600; }
-  .project-head .role { color: var(--muted); font-size: 13.5px; font-family: "IBM Plex Mono", monospace; }
-  .project-body { padding: 20px 24px 26px; }
-  .project-body p.overview { margin-top: 0; color: var(--ink-soft); max-width: 68ch; }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+  nav .brand { font-weight: 700; font-size: 17px; }
+  nav .links { display: flex; gap: 28px; font-size: 14.5px; font-weight: 500; }
+  nav .links a { color: var(--muted); }
+  nav .links a:hover { color: var(--ink); }
+  @media (max-width: 560px) { nav .links { gap: 16px; } nav .links span.hide-mobile { display: none; } }
 
-  .project ul { padding-left: 0; margin: 18px 0 0; list-style: none; }
-  .project li {
-    padding: 10px 0 10px 22px;
-    border-top: 1px solid var(--line-faint);
-    position: relative;
-    font-size: 15px;
+  /* drone hero scene */
+  .drone-scene { position: relative; height: 240vh; }
+  .drone-stage {
+    position: sticky; top: 0; height: 100vh; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, var(--bg-alt), var(--bg));
   }
-  .project li:first-child { border-top: none; }
-  .project li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
+  .drone-graphic { position: absolute; width: min(60vw, 460px); will-change: transform, opacity; }
+  .prop { transform-box: fill-box; transform-origin: 50% 50%; animation: spin 0.6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hero-copy {
+    position: relative; z-index: 2; text-align: center; max-width: 640px; padding: 36px 28px;
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    text-shadow: 0 1px 10px color-mix(in srgb, var(--bg) 70%, transparent);
+    will-change: transform;
+  }
+  .hero-copy .eyebrow { color: var(--accent); font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+  .hero-copy h1 { font-size: clamp(34px, 6vw, 52px); font-weight: 800; margin: 0 0 14px; letter-spacing: -0.02em; }
+  .hero-copy p.lead { max-width: 56ch; margin-left: auto; margin-right: auto; color: var(--muted); font-size: 18px; margin-bottom: 28px; }
+  .hero-copy .btn-row, .hero-copy .social { justify-content: center; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; }
+  @media (prefers-reduced-motion: reduce) {
+    .drone-scene { height: auto; }
+    .drone-stage { position: relative; padding: 70px 0; }
+    .drone-graphic { position: static; margin-bottom: 24px; }
+    .prop { animation: none; }
+    .hero-copy { opacity: 1; transform: none; }
+  }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 8px; font-weight: 600; font-size: 14.5px; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-secondary { border: 1px solid var(--line); color: var(--ink); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .social { display: flex; gap: 16px; }
+  .social a { color: var(--muted); display: inline-flex; }
+  .social a:hover { color: var(--ink); }
+  .badge {
+    display: inline-block; font-size: 13px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 20px;
   }
 
-  .spec-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    margin-top: 22px;
-    border-top: 1px solid var(--line);
-  }
-  .spec {
-    flex: 1 1 140px;
-    padding: 12px 16px;
-    border-right: 1px solid var(--line);
-  }
-  .spec:last-child { border-right: none; }
-  .spec .k { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-  .spec .v { font-size: 17px; font-weight: 600; margin-top: 3px; }
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  h2.section-title { font-size: clamp(24px, 3.5vw, 30px); font-weight: 700; margin: 0 0 36px; }
 
-  /* ---------- BOM table ---------- */
-  table.bom { width: 100%; border-collapse: collapse; font-size: 14.5px; }
-  table.bom caption { text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
-  table.bom th, table.bom td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-  table.bom th { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 1.5px solid var(--ink); }
-  table.bom td.ref { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-weight: 600; }
-  table.bom tr:last-child td { border-bottom: 1.5px solid var(--ink); }
-  .bom-wrap { overflow-x: auto; }
-
-  /* ---------- footer title block ---------- */
-  footer {
-    margin-top: 60px;
-    border: 1.5px solid var(--ink);
-    padding: 20px 24px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 14px;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    color: var(--muted);
+  /* project cards */
+  .project-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 28px 30px; margin-bottom: 24px;
   }
-  footer .links a { color: var(--ink); margin-right: 18px; }
-  footer .links a:hover { color: var(--accent); }
+  .project-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+  .project-head h3 { font-size: 21px; font-weight: 700; margin: 0; }
+  .project-date { color: var(--muted); font-size: 13.5px; }
+  .project-status { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-bottom: 14px; }
+  .project-card p.desc { color: var(--muted); margin: 0 0 16px; max-width: 68ch; }
+  .project-card ul { margin: 0 0 18px; padding-left: 20px; }
+  .project-card li { margin-bottom: 8px; font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .tag { font-size: 12.5px; font-weight: 500; background: var(--bg-alt); border: 1px solid var(--line); padding: 4px 11px; border-radius: 999px; color: var(--muted); }
+  .stat-row { display: flex; flex-wrap: wrap; gap: 24px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .stat .num { font-size: 20px; font-weight: 700; }
+  .stat .label { font-size: 12.5px; color: var(--muted); }
 
-  .status-pill {
-    display: inline-block;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11.5px;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 3px 9px;
-    margin-top: 14px;
-  }
+  /* skills */
+  .skill-group { margin-bottom: 22px; }
+  .skill-group h4 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 0 0 10px; }
+  .skill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-pill { font-size: 14px; font-weight: 500; background: var(--bg-alt); border: 1px solid var(--line); padding: 7px 14px; border-radius: 8px; }
+
+  /* contact / footer */
+  footer { padding: 60px 0 40px; }
+  footer h2.section-title { margin-bottom: 14px; }
+  footer p { color: var(--muted); max-width: 50ch; margin-bottom: 26px; }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 24px; border-top: 1px solid var(--line); margin-top: 30px; font-size: 13.5px; color: var(--muted); }
 </style>
 </head>
 <body>
-<div class="sheet">
 
-  <div class="titleblock">
-    <div class="titleblock-main">
-      <h1>Ryan Zhang</h1>
-      <p>Mechatronics Engineering</p>
-      <span class="status-pill">Seeking co-op / internship — Winter 2027</span>
-    </div>
-    <div class="titleblock-meta">
-      <div>Sheet <span class="v">1 / 1</span></div>
-      <div>Drawn by <span class="v">R. Zhang</span></div>
-      <div>Rev <span class="v">1.0</span></div>
-      <div>Date <span class="v">2026</span></div>
-    </div>
-  </div>
-
-  <div class="dim-rule">SYSTEM OVERVIEW</div>
-
-  <p class="intro">
-    I build systems that sit across mechanical, electrical, and software boundaries — from power
-    distribution and switching circuits to the flight and control code that runs on top of them.
-    Below is the architecture of my current project, an autonomous payload-carrying quadcopter,
-    followed by the rest of my work.
-  </p>
-
-  <div class="hero-diagram" role="img" aria-label="Block diagram of the quadcopter system: a LiPo battery powers a UBEC and the ESCs; the UBEC powers the Raspberry Pi; the Pixhawk flight controller communicates with the Raspberry Pi and a GPS module; the Raspberry Pi switches a MOSFET driver to actuate a water pump; the ESCs drive the brushless motors.">
-    <svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg">
-
-      <!-- wires (power = solid, signal = dashed) -->
-      <path class="wire-power wire-draw" d="M150,80 L150,150" />
-      <path class="wire-power wire-draw" d="M150,80 L150,55 L340,55 L340,80" style="animation-delay:0.1s" />
-      <path class="wire-signal wire-draw signal" d="M660,80 L570,80 L570,150" style="animation-delay:0.2s" />
-      <path class="wire-signal wire-draw signal" d="M480,175 L570,175" style="animation-delay:0.3s" />
-      <path class="wire-power wire-draw" d="M210,175 L340,175" style="animation-delay:0.15s" />
-      <path class="wire-power wire-draw" d="M150,205 L150,285" style="animation-delay:0.25s" />
-      <path class="wire-power wire-draw" d="M150,340 L150,395 M90,340 L210,340 L210,395" style="animation-delay:0.35s" />
-      <path class="wire-signal wire-draw signal" d="M400,205 L400,285" style="animation-delay:0.3s" />
-      <path class="wire-power wire-draw" d="M660,205 L660,285" style="animation-delay:0.4s" />
-
-      <!-- BT1 LiPo -->
-      <g class="node-fade">
-        <rect class="node-box" x="80" y="30" width="140" height="50" />
-        <text class="node-title" x="96" y="50">BT1</text>
-        <text class="node-sub" x="96" y="66">11.1V 3S LiPo</text>
-      </g>
-
-      <!-- U2 Pixhawk -->
-      <g class="node-fade" style="animation-delay:0.1s">
-        <rect class="node-box" x="340" y="30" width="140" height="50" />
-        <text class="node-title" x="356" y="50">U2</text>
-        <text class="node-sub" x="356" y="66">Pixhawk 6C (FC)</text>
-      </g>
-
-      <!-- GPS1 -->
-      <g class="node-fade" style="animation-delay:0.15s">
-        <rect class="node-box" x="590" y="30" width="140" height="50" />
-        <text class="node-title" x="606" y="50">GPS1</text>
-        <text class="node-sub" x="606" y="66">M10 GPS module</text>
-      </g>
-
-      <!-- PS1 UBEC -->
-      <g class="node-fade" style="animation-delay:0.2s">
-        <rect class="node-box" x="80" y="150" width="130" height="55" />
-        <text class="node-title" x="96" y="172">PS1</text>
-        <text class="node-sub" x="96" y="189">5V UBEC</text>
-      </g>
-
-      <!-- U1 Raspberry Pi -->
-      <g class="node-fade" style="animation-delay:0.25s">
-        <rect class="node-box" x="340" y="150" width="140" height="55" />
-        <text class="node-title" x="356" y="172">U1</text>
-        <text class="node-sub" x="356" y="189">Raspberry Pi (companion)</text>
-      </g>
-
-      <!-- Q1 MOSFET -->
-      <g class="node-fade" style="animation-delay:0.3s">
-        <rect class="node-box" x="590" y="150" width="140" height="55" />
-        <text class="node-title" x="606" y="172">Q1</text>
-        <text class="node-sub" x="606" y="189">IRF520 MOSFET driver</text>
-      </g>
-
-      <!-- ESC bank -->
-      <g class="node-fade" style="animation-delay:0.35s">
-        <rect class="node-box" x="80" y="285" width="140" height="55" />
-        <text class="node-title" x="96" y="307">ESC1–4</text>
-        <text class="node-sub" x="96" y="324">4× ESC</text>
-      </g>
-
-      <!-- OpenCV pipeline (child of U1, dashed down) -->
-      <g class="node-fade" style="animation-delay:0.4s">
-        <rect class="node-box" x="330" y="285" width="160" height="55" />
-        <text class="node-title" x="346" y="307">SW1</text>
-        <text class="node-sub" x="346" y="324">OpenCV detection (WIP)</text>
-      </g>
-
-      <!-- Pump -->
-      <g class="node-fade" style="animation-delay:0.45s">
-        <rect class="node-box" x="590" y="285" width="140" height="55" />
-        <text class="node-title" x="606" y="307">PUMP1</text>
-        <text class="node-sub" x="606" y="324">Water-pump payload</text>
-      </g>
-
-      <!-- Motors -->
-      <g class="node-fade" style="animation-delay:0.5s">
-        <rect class="node-box" x="65" y="395" width="170" height="30" />
-        <text class="node-sub" x="82" y="415">M1–M4 · Brushless motors</text>
-      </g>
-
-      <!-- legend -->
-      <line x1="360" y1="410" x2="390" y2="410" class="wire-power" />
-      <text class="legend-text" x="396" y="414">power</text>
-      <line x1="470" y1="410" x2="500" y2="410" class="wire-signal" />
-      <text class="legend-text" x="506" y="414">signal / data</text>
-    </svg>
-  </div>
-
-  <div class="dim-rule">PROJECTS</div>
-
-  <div class="project">
-    <div class="project-head">
-      <h3>Autonomous Payload Quadcopter</h3>
-      <span class="role">Jun 2026 – Present · Independent build</span>
-    </div>
-    <div class="project-body">
-      <p class="overview">
-        A self-built F450-frame quadcopter designed to carry and release a liquid payload with no
-        operator input. The build splits work across three domains: a Pixhawk 6C handles low-level
-        flight control while a Raspberry Pi companion computer takes on vision and payload logic,
-        keeping camera and detection workloads off the flight-control loop.
-      </p>
-      <ul>
-        <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision processing never competes with the flight-control loop for cycles.</li>
-        <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from Pi GPIO, isolating logic-level signals from pump inrush current to prevent brownouts on the companion computer.</li>
-        <li>Built the power distribution scheme around a 5V UBEC, separating the logic rail from high-current ESC loads so onboard electronics stay stable through full-throttle draw.</li>
-        <li>In progress: M10 GPS integration for Pixhawk waypoint navigation, plus an OpenCV detection pipeline on the Pi for autonomous target tracking and payload release.</li>
-      </ul>
-      <div class="spec-row">
-        <div class="spec"><div class="k">Frame</div><div class="v">F450</div></div>
-        <div class="spec"><div class="k">Battery</div><div class="v">11.1V 3S LiPo</div></div>
-        <div class="spec"><div class="k">Flight controller</div><div class="v">Pixhawk 6C</div></div>
-        <div class="spec"><div class="k">Companion compute</div><div class="v">Raspberry Pi</div></div>
-        <div class="spec"><div class="k">Status</div><div class="v">In development</div></div>
-      </div>
-    </div>
-    <span class="corner-br"></span>
-  </div>
-
-  <div class="project">
-    <div class="project-head">
-      <h3>Lunate Studios</h3>
-      <span class="role">Jul 2026 – Present · Co-Founder &amp; Lead Developer</span>
-    </div>
-    <div class="project-body">
-      <p class="overview">
-        Not a mechatronics project, but the closest thing I have to shipped-product engineering
-        experience: co-founded a small studio and led backend development across four published
-        Roblox games, taking systems from design through live operation at real scale.
-      </p>
-      <ul>
-        <li>Architected persistent backend systems in Luau (DataStoreService, OrderedDataStores) for player progression, global leaderboards, inventories, and in-game economies, holding up reliably at peak concurrency.</li>
-        <li>Instrumented custom player analytics and used session drop-off data to redesign onboarding, lifting tutorial completion from 24% to over 70%.</li>
-        <li>Built raycasting- and physics-based gameplay systems with co-founders, splitting feature ownership and cross-reviewing code to ship on a consistent release cadence.</li>
-      </ul>
-      <div class="spec-row">
-        <div class="spec"><div class="k">Titles shipped</div><div class="v">4</div></div>
-        <div class="spec"><div class="k">Total visits</div><div class="v">6.8M+</div></div>
-        <div class="spec"><div class="k">Peak concurrent</div><div class="v">9K+</div></div>
-        <div class="spec"><div class="k">Revenue</div><div class="v">$65K+</div></div>
-        <div class="spec"><div class="k">Tutorial completion</div><div class="v">24%→70%+</div></div>
-      </div>
-    </div>
-    <span class="corner-br"></span>
-  </div>
-
-  <div class="dim-rule">BILL OF MATERIALS — SKILLS</div>
-
-  <div class="bom-wrap">
-    <table class="bom">
-      <caption>Components and tools referenced across current projects</caption>
-      <thead>
-        <tr><th>Ref</th><th>Component / tool</th><th>Domain</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="ref">FR1</td><td>F450 quadcopter airframe</td><td>Mechanical</td></tr>
-        <tr><td class="ref">M1–M4</td><td>Brushless motors + ESCs</td><td>Mechanical / Electrical</td></tr>
-        <tr><td class="ref">BT1</td><td>11.1V 3S LiPo pack</td><td>Electrical — power</td></tr>
-        <tr><td class="ref">PS1</td><td>5V UBEC</td><td>Electrical — power</td></tr>
-        <tr><td class="ref">Q1</td><td>IRF520 MOSFET driver</td><td>Electrical — switching</td></tr>
-        <tr><td class="ref">U2</td><td>Pixhawk 6C flight controller</td><td>Electrical / Controls</td></tr>
-        <tr><td class="ref">GPS1</td><td>M10 GPS module</td><td>Electrical — navigation</td></tr>
-        <tr><td class="ref">U1</td><td>Raspberry Pi (companion computer)</td><td>Software / Compute</td></tr>
-        <tr><td class="ref">SW1</td><td>Python + OpenCV</td><td>Software — vision</td></tr>
-        <tr><td class="ref">SW2</td><td>Luau + DataStoreService</td><td>Software — backend</td></tr>
-        <tr><td class="ref">CTL1</td><td>PID / waypoint control (Pixhawk)</td><td>Controls</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <footer>
+<nav>
+  <div class="wrap">
+    <div class="brand">Ryan Zhang</div>
     <div class="links">
-      <a href="mailto:ryan.zhang1@uwaterloo.ca">ryan.zhang1@uwaterloo.ca</a>
-      <a href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">github.com/ryanzhang-ca</a>
-      <a href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">linkedin.com/in/ryanzhangca</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
     </div>
-    <div>Rev. 1.0 — 2026</div>
-  </footer>
+  </div>
+</nav>
 
+<div class="drone-scene">
+  <div class="drone-stage">
+    <svg class="drone-graphic" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+      <line x1="200" y1="160" x2="70" y2="60" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>
+      <line x1="200" y1="160" x2="330" y2="60" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>
+      <line x1="200" y1="160" x2="70" y2="260" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>
+      <line x1="200" y1="160" x2="330" y2="260" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>
+      <g class="prop"><ellipse cx="70" cy="60" rx="34" ry="8" fill="var(--accent)" opacity="0.35"/><ellipse cx="70" cy="60" rx="8" ry="34" fill="var(--accent)" opacity="0.35"/></g>
+      <g class="prop"><ellipse cx="330" cy="60" rx="34" ry="8" fill="var(--accent)" opacity="0.35"/><ellipse cx="330" cy="60" rx="8" ry="34" fill="var(--accent)" opacity="0.35"/></g>
+      <g class="prop"><ellipse cx="70" cy="260" rx="34" ry="8" fill="var(--accent)" opacity="0.35"/><ellipse cx="70" cy="260" rx="8" ry="34" fill="var(--accent)" opacity="0.35"/></g>
+      <g class="prop"><ellipse cx="330" cy="260" rx="34" ry="8" fill="var(--accent)" opacity="0.35"/><ellipse cx="330" cy="260" rx="8" ry="34" fill="var(--accent)" opacity="0.35"/></g>
+      <circle cx="70" cy="60" r="13" fill="var(--ink)"/>
+      <circle cx="330" cy="60" r="13" fill="var(--ink)"/>
+      <circle cx="70" cy="260" r="13" fill="var(--ink)"/>
+      <circle cx="330" cy="260" r="13" fill="var(--ink)"/>
+      <rect x="155" y="135" width="90" height="50" rx="14" fill="var(--accent)"/>
+      <line x1="200" y1="185" x2="200" y2="205" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="200" cy="212" r="11" fill="var(--ink)"/>
+      <line x1="175" y1="185" x2="160" y2="215" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+      <line x1="225" y1="185" x2="240" y2="215" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+    <div class="hero-copy">
+      <span class="badge">Open to Fall 2027 co-op roles</span>
+      <p class="eyebrow">Hi, I'm</p>
+      <h1>Ryan Zhang</h1>
+      <p class="lead">Mechatronics engineering student building autonomous systems end to end — mechanical design, power electronics, and the embedded software that ties them together.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="mailto:ryan.zhang@email.com">Get in touch</a>
+        <a class="btn btn-secondary" href="#projects">View projects</a>
+      </div>
+      <div class="social">
+        <a href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.1c-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.08.78 2.17v3.22c0 .3.21.66.79.55A10.51 10.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/ryanzhang" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+        </a>
+        <a href="mailto:ryan.zhang@email.com" aria-label="Email">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
+
+<section id="projects">
+  <div class="wrap">
+    <h2 class="section-title">Projects</h2>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h3>Autonomous Payload Quadcopter</h3>
+        <span class="project-date">Jun 2026 – Present</span>
+      </div>
+      <span class="project-status">In progress</span>
+      <p class="desc">A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.</p>
+      <ul>
+        <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
+        <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
+        <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>
+        <li>Currently integrating an M10 GPS module for waypoint navigation and an OpenCV pipeline for autonomous target tracking.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">Pixhawk</span><span class="tag">Raspberry Pi</span><span class="tag">OpenCV</span>
+        <span class="tag">Power electronics</span><span class="tag">Embedded systems</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-head">
+        <h3>Lunate Studios</h3>
+        <span class="project-date">Jul 2026 – Present</span>
+      </div>
+      <span class="project-status">Shipped</span>
+      <p class="desc">Co-founded a game studio and led backend development across four published Roblox titles — not mechatronics, but real product engineering at scale.</p>
+      <ul>
+        <li>Architected persistent Luau backend systems (DataStoreService, OrderedDataStores) for progression, leaderboards, inventory, and economy.</li>
+        <li>Used session drop-off data to redesign onboarding, raising tutorial completion from 24% to over 70%.</li>
+        <li>Built raycasting and physics-based gameplay systems with co-founders, splitting ownership and reviewing each other's code.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">Luau</span><span class="tag">Backend systems</span><span class="tag">Analytics</span><span class="tag">Game dev</span>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="num">4</div><div class="label">Titles shipped</div></div>
+        <div class="stat"><div class="num">6.8M+</div><div class="label">Total visits</div></div>
+        <div class="stat"><div class="num">9K+</div><div class="label">Peak concurrent</div></div>
+        <div class="stat"><div class="num">$65K+</div><div class="label">Revenue</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2 class="section-title">Skills</h2>
+    <div class="skill-group">
+      <h4>Mechanical</h4>
+      <div class="skill-row">
+        <span class="skill-pill">Airframe design</span><span class="skill-pill">Brushless motor systems</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Electrical</h4>
+      <div class="skill-row">
+        <span class="skill-pill">Power distribution</span><span class="skill-pill">MOSFET switching</span>
+        <span class="skill-pill">Flight controllers</span><span class="skill-pill">GPS / navigation modules</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Software</h4>
+      <div class="skill-row">
+        <span class="skill-pill">Python</span><span class="skill-pill">OpenCV</span><span class="skill-pill">Luau</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Controls</h4>
+      <div class="skill-row">
+        <span class="skill-pill">PID tuning</span><span class="skill-pill">Waypoint navigation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2 class="section-title">Get in touch</h2>
+    <p>Looking for a mechatronics co-op for Winter 2027 — happy to talk about the quadcopter build, hardware/software integration, or anything else.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="mailto:ryan.zhang1@uwaterloo.ca">Email me</a>
+      <a class="btn btn-secondary" href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-secondary" href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Ryan Zhang</span>
+      <span>Built with HTML &amp; CSS</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var scene = document.querySelector('.drone-scene');
+  var drone = document.querySelector('.drone-graphic');
+  var copy = document.querySelector('.hero-copy');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !scene) return;
+  var ticking = false;
+  function update() {
+    var rect = scene.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    var p = total > 0 ? (-rect.top) / total : 0;
+    p = Math.min(Math.max(p, 0), 1);
+    var a = Math.min(p / 0.5, 1);
+    var b = Math.max((p - 0.5) / 0.5, 0);
+    var scale = (1.6 - 0.6 * a) - 0.7 * b;
+    var tx = (30 - 30 * a) + 160 * b;
+    var ty = (10 - 10 * a) - 90 * b;
+    var rot = -18 * b;
+    drone.style.transform = 'translate(' + tx + '%, ' + ty + '%) scale(' + scale + ') rotate(' + rot + 'deg)';
+    drone.style.opacity = String(1 - b);
+    copy.style.transform = 'translateY(' + (-24 * p) + 'px)';
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
 </body>
 </html>
