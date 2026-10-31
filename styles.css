@@ -306,6 +306,7 @@ p { text-wrap: pretty; }
 .text-link .arrow { transition: transform 0.15s ease; }
 .text-link:hover .arrow { transform: translateX(3px); }
 .text-link:hover .arrow.ext { transform: translate(2px, -2px); }
+.text-link:hover .arrow.up { transform: translateY(-2px); }
 
 /* ---------- Shared pieces ---------- */
 
@@ -759,6 +760,89 @@ p { text-wrap: pretty; }
   text-shadow: 0 0 22px rgba(255, 138, 76, 0.35);
 }
 
+/* ---------- Experience ---------- */
+
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.exp {
+  position: relative;
+  padding: 0 0 clamp(40px, 5vw, 60px) 34px;
+  border-left: 1px solid var(--line-strong);
+}
+.exp:last-child { padding-bottom: 0; border-left-color: transparent; }
+/* Each entry hangs off the line on a via, like the bullet markers. */
+.exp::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 5px;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+}
+.exp-current::before { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.exp-when {
+  margin: 0 0 6px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.exp-current .exp-when { color: var(--accent); }
+.exp h3 { margin-bottom: 4px; font-size: clamp(1.3rem, 2.2vw, 1.6rem); letter-spacing: -0.02em; }
+.exp-org { margin: 0 0 16px; font-size: 15px; color: var(--muted); }
+.exp-summary { max-width: 64ch; margin: 0 0 16px; color: var(--ink-2); }
+.exp .bullets { max-width: 72ch; margin-bottom: 18px; }
+
+.wins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wins li {
+  padding: 4px 11px;
+  border: 1px solid var(--accent-line);
+  border-radius: 7px;
+  background: var(--accent-soft);
+  font-size: 13px;
+}
+.wins strong {
+  margin-right: 4px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.exp-photo { max-width: 360px; margin-top: 24px; }
+.photo-frame.exp-photo img { aspect-ratio: auto; }
+
+@media (min-width: 881px) {
+  .timeline { padding-left: 200px; }
+  .exp-has-photo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    align-items: start;
+    gap: 0 40px;
+  }
+  .exp-has-photo .exp-photo { margin-top: 4px; }
+  .exp-when {
+    position: absolute;
+    top: 3px;
+    left: -200px;
+    width: 164px;
+    margin: 0;
+    text-align: right;
+  }
+}
+
 /* ---------- Skills ---------- */
 
 .skills { border-top: 1px solid var(--line); }
@@ -1018,15 +1102,24 @@ p { text-wrap: pretty; }
   .spec { position: static; }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
   .nav-cta { display: none; }
+}
+
+@media (max-width: 720px) {
+  .brand-name { display: none; }
   .skill-row { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 22px 0; }
   .skill-row h3 { padding-top: 0; }
 }
 
 @media (max-width: 600px) {
-  .brand-name { display: none; }
   .nav-links a { font-size: 13.5px; }
+}
+
+/* Keep the nav on one line on phones; About and Skills are a short scroll away. */
+@media (max-width: 520px) {
+  .nav-links a[href="#about"],
+  .nav-links a[href="#skills"] { display: none; }
 }
 
 @media (max-width: 480px) {
@@ -1035,6 +1128,7 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 360px) {
-  .nav-links { gap: 12px; }
-  .nav-links a[href="#about"] { display: none; }
+  .site-nav .wrap,
+  .nav-right,
+  .nav-links { gap: 10px; }
 }
