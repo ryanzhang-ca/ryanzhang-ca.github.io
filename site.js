@@ -1,36 +1,49 @@
 // Small enhancements; every page works without this file.
 (function () {
-  var root = document.documentElement;
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Theme toggle. The <head> script applies a saved choice before first paint.
-  var toggle = document.querySelector('[data-theme-toggle]');
-  function currentTheme() {
-    var chosen = root.getAttribute('data-theme');
-    if (chosen) return chosen;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  // Menu button on small screens.
+  var bar = document.querySelector('.bar');
+  var menuBtn = document.querySelector('.menu-btn');
+  function setMenu(open) {
+    bar.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.textContent = open ? 'Close' : 'Menu';
   }
-  function labelToggle() {
-    var label = currentTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
-    toggle.setAttribute('aria-label', label);
-    toggle.setAttribute('title', label);
-  }
-  if (toggle) {
-    labelToggle();
-    toggle.addEventListener('click', function () {
-      var next = currentTheme() === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('rz-theme', next); } catch (e) {}
-      labelToggle();
+  if (bar && menuBtn) {
+    menuBtn.addEventListener('click', function () { setMenu(!bar.classList.contains('open')); });
+    Array.prototype.forEach.call(bar.querySelectorAll('nav a'), function (a) {
+      a.addEventListener('click', function () { setMenu(false); });
     });
   }
 
-  // Hairline under the nav once the page scrolls.
-  var nav = document.querySelector('.site-nav');
-  if (nav) {
-    var markScrolled = function () { nav.classList.toggle('is-scrolled', window.scrollY > 8); };
-    window.addEventListener('scroll', markScrolled, { passive: true });
-    markScrolled();
+  // Project index: float a preview of the hovered row beside the cursor.
+  var preview = document.querySelector('.preview');
+  var canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (preview && canHover) {
+    var parts = preview.querySelectorAll('[data-for]');
+    var x = 0, y = 0, tx = 0, ty = 0, frame = 0;
+    var follow = function () {
+      x += (tx - x) * 0.18;
+      y += (ty - y) * 0.18;
+      preview.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+      frame = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(follow) : 0;
+    };
+    window.addEventListener('mousemove', function (e) {
+      tx = Math.min(e.clientX + 40, window.innerWidth - 320);
+      ty = Math.max(e.clientY - 160, 60);
+      if (reduceMotion) { x = tx; y = ty; }
+      if (!frame) frame = requestAnimationFrame(follow);
+    }, { passive: true });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-preview]'), function (row) {
+      row.addEventListener('mouseenter', function () {
+        if (!preview.classList.contains('on')) { x = tx; y = ty; }
+        Array.prototype.forEach.call(parts, function (p) {
+          p.hidden = p.getAttribute('data-for') !== row.getAttribute('data-preview');
+        });
+        preview.classList.add('on');
+      });
+      row.addEventListener('mouseleave', function () { preview.classList.remove('on'); });
+    });
   }
 
   // Copy-to-clipboard buttons.
@@ -51,11 +64,7 @@
     var original = button.textContent;
     function copied() {
       button.textContent = 'Copied';
-      button.classList.add('is-copied');
-      setTimeout(function () {
-        button.textContent = original;
-        button.classList.remove('is-copied');
-      }, 1600);
+      setTimeout(function () { button.textContent = original; }, 1600);
     }
     button.addEventListener('click', function () {
       var text = button.getAttribute('data-copy');
@@ -66,26 +75,4 @@
       }
     });
   });
-
-  // Fade sections in as they scroll into view. Anything already on screen is
-  // marked visible first, so nothing above the fold flickers.
-  var items = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-  if (items.length && !reduceMotion && 'IntersectionObserver' in window) {
-    var fold = window.innerHeight * 0.92;
-    items.forEach(function (el) {
-      if (el.getBoundingClientRect().top < fold) el.classList.add('is-visible');
-    });
-    root.classList.add('js-reveal');
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    items.forEach(function (el) {
-      if (!el.classList.contains('is-visible')) observer.observe(el);
-    });
-  }
 })();
