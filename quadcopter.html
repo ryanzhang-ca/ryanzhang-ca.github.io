@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Autonomous Payload Quadcopter — Ryan Zhang</title>
 <meta name="description" content="A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.">
-<meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0F1115" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F2F2EF">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ryanzhang-ca.github.io/quadcopter.html">
 <meta property="og:title" content="Autonomous Payload Quadcopter — Ryan Zhang">
@@ -17,93 +16,75 @@
 <link rel="apple-touch-icon" href="images/rz-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<script>try{var t=localStorage.getItem("rz-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="site-nav" aria-label="Primary">
-  <div class="wrap">
-    <a class="brand" href="index.html" aria-label="Ryan Zhang, home">
-      <img src="images/rz-logo.png" alt="" width="30" height="30">
-      <span class="brand-name">Ryan Zhang</span>
-    </a>
-    <div class="nav-right">
-      <a class="back-link" href="index.html">&larr; Back to portfolio</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.1A8.5 8.5 0 1 1 9.9 3.5a6.6 6.6 0 0 0 10.6 10.6Z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
-      </button>
-    </div>
-  </div>
-</nav>
+<header class="bar grid">
+  <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="20" height="20">Ryan Zhang</a>
+  <span class="what">Mechatronics Engineering, University of Waterloo</span>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+  <nav id="site-menu" aria-label="Primary">
+    <a href="index.html#work">Work</a>
+    <a href="index.html#experience">Experience</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé ↗<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+  </nav>
+</header>
 
 <main id="main">
 
   <section class="case-hero">
-    <div class="wrap">
-      <p class="eyebrow">Project · P-01</p>
-      <h1>Autonomous Payload Quadcopter</h1>
-      <div class="case-meta">
-        <span>Jun 2026 – Present · Independent build</span>
-        <span class="chip chip-progress">In progress</span>
-      </div>
+    <div class="crumbs grid"><a class="txt" href="index.html#quadcopter">&larr; Back to portfolio</a></div>
+    <p class="hello">Project · P-01</p>
+    <h1 class="case-title">Autonomous Payload<br>Quadcopter</h1>
+    <div class="intro grid">
+      <p class="lead">A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.</p>
+      <p class="m1"><span class="k">Timeline</span>Jun 2026 – Present · Independent build</p>
+      <p class="m2"><span class="k">Status</span><span class="sig" aria-hidden="true"></span>In progress</p>
     </div>
   </section>
 
-  <section class="case-body">
-    <div class="wrap case-grid">
-      <div class="case-copy">
-        <p class="desc">A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.</p>
-        <ul class="bullets">
-          <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
-          <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
-          <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>
-          <li>Currently integrating an M10 GPS module for waypoint navigation and an OpenCV pipeline for autonomous target tracking.</li>
-        </ul>
-        <ul class="tags" aria-label="Technologies">
-          <li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li>
-        </ul>
-      </div>
-      <aside class="spec" aria-labelledby="spec-title">
-        <h2 id="spec-title">Key components</h2>
-        <dl>
-          <div class="row"><dt>Frame</dt><dd>F450</dd></div>
-          <div class="row"><dt>Flight control</dt><dd>Pixhawk 6C</dd></div>
-          <div class="row"><dt>Companion</dt><dd>Raspberry Pi, for vision</dd></div>
-          <div class="row"><dt>Payload</dt><dd>Water pump on an IRF520 MOSFET driver</dd></div>
-          <div class="row"><dt>Power</dt><dd>5V UBEC logic rail, separate from ESC loads</dd></div>
-          <div class="row"><dt>Navigation</dt><dd>M10 GPS<span class="pending">Integrating</span></dd></div>
-          <div class="row"><dt>Vision</dt><dd>OpenCV target tracking<span class="pending">Integrating</span></dd></div>
-        </dl>
-      </aside>
+  <section class="section grid" aria-labelledby="details-title">
+    <div class="label"><h2 id="details-title">Details</h2><span>Pixhawk, Raspberry Pi, OpenCV, Power electronics, Embedded systems</span></div>
+    <ol class="points case-points">
+      <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
+      <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
+      <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>
+      <li>Currently integrating an M10 GPS module for waypoint navigation and an OpenCV pipeline for autonomous target tracking.</li>
+    </ol>
+    <div class="spec-wrap">
+      <p class="k small">Key components</p>
+      <dl class="spec">
+        <div><dt>Frame</dt><dd>F450</dd></div>
+        <div><dt>Flight control</dt><dd>Pixhawk 6C</dd></div>
+        <div><dt>Companion</dt><dd>Raspberry Pi, for vision</dd></div>
+        <div><dt>Payload</dt><dd>Water pump on an IRF520 MOSFET driver</dd></div>
+        <div><dt>Power</dt><dd>5V UBEC logic rail, separate from ESC loads</dd></div>
+        <div><dt>Navigation</dt><dd>M10 GPS (integrating)</dd></div>
+        <div><dt>Vision</dt><dd>OpenCV target tracking (integrating)</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="gallery-title">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-num">Fig.</span>
-        <h2 id="gallery-title">Build photos</h2>
-      </div>
-      <div class="gallery-grid">
-        <figure class="photo-frame">
-          <img src="images/quadcopter-esc-soldering.jpg" alt="Soldering ESC connections onto the quadcopter frame" width="640" height="843">
-          <figcaption><span>Fig. 01</span>Soldering ESC connections onto the quadcopter frame.</figcaption>
-        </figure>
-      </div>
-    </div>
+  <section class="section grid" aria-labelledby="photos-title">
+    <div class="label"><h2 id="photos-title">Build photos</h2><span>1 photo</span></div>
+    <figure class="case-photo">
+      <img src="images/quadcopter-esc-soldering.jpg" alt="Soldering ESC connections onto the quadcopter frame" width="640" height="843">
+      <figcaption>Fig. 1 — Soldering ESC connections onto the quadcopter frame.</figcaption>
+    </figure>
   </section>
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <span>© 2026 Ryan Zhang</span>
-    <a href="index.html">&larr; Back to portfolio</a>
-  </div>
+<footer class="foot grid">
+  <span class="f1">© 2026 Ryan Zhang</span>
+  <span class="f2">Built with HTML &amp; CSS</span>
+  <a class="f3" href="index.html">&larr; Back to portfolio</a>
 </footer>
 
 <script src="site.js" defer></script>
