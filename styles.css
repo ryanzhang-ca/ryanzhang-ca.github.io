@@ -329,7 +329,8 @@ figcaption { margin-top: 8px; font-size: 12px; color: var(--muted); }
 .spec { border-top: 1px solid var(--line); }
 .spec div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px; padding-block: 9px; border-bottom: 1px solid var(--line); font-size: 13px; }
 .spec dt { color: var(--muted); }
-.case-photo { grid-column: 1 / 6; }
+.case-photo-main { grid-column: 1 / 8; }
+.case-photo-side { grid-column: 9 / 13; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -374,6 +375,7 @@ figcaption { margin-top: 8px; font-size: 12px; color: var(--muted); }
 
   .case-points, .spec-wrap, .case-photo { grid-column: 1 / -1; }
   .spec-wrap { margin-top: 32px; }
+  .case-photo + .case-photo { margin-top: 28px; }
 
   .preview { display: none; }
 }
