@@ -44,6 +44,8 @@
       });
       row.addEventListener('mouseleave', function () { preview.classList.remove('on'); });
     });
+    // Scrolling can move a row out from under a still cursor without a mouseleave.
+    window.addEventListener('scroll', function () { preview.classList.remove('on'); }, { passive: true });
   }
 
   // Copy-to-clipboard buttons.
