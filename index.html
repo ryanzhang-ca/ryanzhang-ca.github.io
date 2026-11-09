@@ -61,15 +61,17 @@
   </section>
 
   <section class="section" id="work" aria-labelledby="work-title">
-    <div class="grid"><div class="label"><h2 id="work-title">Selected work</h2><span>3 projects</span></div></div>
+    <div class="grid"><div class="label"><h2 id="work-title">Selected work</h2><span>4 projects</span></div></div>
     <div class="index-head grid" aria-hidden="true"><span class="c-no">No.</span><span class="c-title">Project</span><span class="c-type">Discipline</span><span class="c-year">Year</span></div>
     <a class="row grid" href="#quadcopter" data-preview="quad"><span class="c-no">01</span><span class="c-title">Autonomous Payload Quadcopter</span><span class="c-type">Hardware, embedded systems</span><span class="c-year">2026–</span></a>
-    <a class="row grid" href="#lunate" data-preview="lunate"><span class="c-no">02</span><span class="c-title">Lunate Studios</span><span class="c-type">Game backend, analytics</span><span class="c-year">2026–</span></a>
-    <a class="row grid" href="#robotics" data-preview="vex"><span class="c-no">03</span><span class="c-title">VEX Competition Robot</span><span class="c-type">Robotics, controls</span><span class="c-year">2022–26</span></a>
+    <a class="row grid" href="#px4" data-preview="px4"><span class="c-no">02</span><span class="c-title">PX4 SITL Experiments</span><span class="c-type">Flight software, simulation</span><span class="c-year">2026</span></a>
+    <a class="row grid" href="#lunate" data-preview="lunate"><span class="c-no">03</span><span class="c-title">Lunate Studios</span><span class="c-type">Game backend, analytics</span><span class="c-year">2026–</span></a>
+    <a class="row grid" href="#robotics" data-preview="vex"><span class="c-no">04</span><span class="c-title">VEX Competition Robot</span><span class="c-type">Robotics, controls</span><span class="c-year">2022–26</span></a>
 
     <div class="preview" aria-hidden="true">
       <div class="preview-inner">
         <img data-for="quad" src="images/quadcopter-assembled.jpg" alt="" width="1500" height="1440">
+        <img data-for="px4" src="images/px4-sitl-flight.jpg" alt="" width="1600" height="900">
         <div data-for="lunate" class="stats">
           <div><b>4</b><span>Titles shipped</span></div>
           <div><b>8M+</b><span>Total visits</span></div>
@@ -99,8 +101,27 @@
       </div>
     </article>
 
+    <article class="feature grid" id="px4" aria-labelledby="px4-title">
+      <div class="label"><h3 id="px4-title">02 — PX4 SITL Experiments</h3><span>Nov 2026 · Simulation</span></div>
+      <figure>
+        <a href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="images/px4-sitl-flight.jpg" alt="A simulated waypoint mission: QGroundControl on the left shows the planned route over a satellite map and the path flown so far; Gazebo on the right shows the simulated quadcopter hovering." width="1600" height="900" loading="lazy"></a>
+        <figcaption>Fig. 2 — A waypoint mission in simulation: QGroundControl (left) and the simulated quadcopter in Gazebo (right).</figcaption>
+      </figure>
+      <div class="text">
+        <p class="desc">Testing the quadcopter's flight software in software-in-the-loop simulation before trusting it on real hardware: PX4 built from source, a simulated quad in Gazebo, and QGroundControl as the ground station.</p>
+        <ol class="points">
+          <li>Cut the ground-station link mid-hover and confirmed PX4's staged response: hold for a 5 s grace period, then return to launch and land.</li>
+          <li>Injected a GPS failure in flight. With no position estimate, PX4 fell back to a blind landing in place and finished it even after GPS returned.</li>
+          <li>Wrote a Python MAVLink script (pymavlink) that arms, takes off to 2.5 m, streams altitude and lands, checking each command's acknowledgement.</li>
+          <li>Fixed two bugs in it: takeoff was sent before arming was confirmed, and altitude readings lagged behind an unread message queue.</li>
+        </ol>
+        <p class="tags-line">PX4, MAVLink, Python, Gazebo, SITL, Linux (WSL2)</p>
+        <a class="txt" href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener">View on GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+    </article>
+
     <article class="feature grid" id="lunate" aria-labelledby="lunate-title">
-      <div class="label"><h3 id="lunate-title">02 — Lunate Studios</h3><span>Jul 2026 – Present · Shipped</span></div>
+      <div class="label"><h3 id="lunate-title">03 — Lunate Studios</h3><span>Jul 2026 – Present · Shipped</span></div>
       <dl class="numbers">
         <div class="num"><dt>Titles shipped</dt><dd>4</dd></div>
         <div class="num"><dt>Total visits</dt><dd>8M+</dd></div>
@@ -155,7 +176,7 @@
           <p class="wins"><b>Silver</b> regional medal · <b>VEX</b> competition robot</p>
           <figure>
             <img src="images/vex-robot.jpg" alt="Top-down photo of the VEX competition robot: an aluminum chassis with a tread conveyor down the middle, red and green gears on the front axle, and a row of rollers across the front." width="1096" height="1220" loading="lazy">
-            <figcaption>Fig. 2 — The VEX competition robot, from above.</figcaption>
+            <figcaption>Fig. 3 — The VEX competition robot, from above.</figcaption>
           </figure>
         </div>
         <ul class="detail">
@@ -196,11 +217,11 @@
   </section>
 
   <section class="section grid" id="skills" aria-labelledby="skills-title">
-    <div class="label"><h2 id="skills-title">Skills</h2><span>28 tools &amp; techniques</span></div>
+    <div class="label"><h2 id="skills-title">Skills</h2><span>32 tools &amp; techniques</span></div>
     <div class="skill sub"><h3>CAD &amp; Prototyping</h3><p>SOLIDWORKS, AutoCAD, 3D Printing, Rapid Prototyping, Mechanical Assembly, Airframe Design, Brushless Motor Systems</p></div>
     <div class="skill sub"><h3>Embedded Systems &amp; Software</h3><p>C/C++, Python, MATLAB, Microcontrollers, Raspberry Pi, Linux, Git, OpenCV, Luau</p></div>
     <div class="skill sub"><h3>Electronics &amp; Hardware</h3><p>PCB Design, Circuit Design, Soldering, CNC Machining, Oscilloscopes, Multimeters, Power Distribution, MOSFET Switching, Flight Controllers, GPS / Navigation Modules</p></div>
-    <div class="skill sub"><h3>Controls</h3><p>PID Tuning, Waypoint Navigation</p></div>
+    <div class="skill sub"><h3>Controls</h3><p>PID Tuning, Waypoint Navigation, PX4 Autopilot, MAVLink, Gazebo SITL, Failsafe Testing</p></div>
   </section>
 
   <section class="section" id="contact" aria-labelledby="contact-title">
