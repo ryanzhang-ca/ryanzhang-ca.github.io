@@ -45,7 +45,7 @@
 <main id="main">
 
   <section class="hero">
-    <div class="wrap center reveal">
+    <div class="wrap center reveal stagger">
       <p class="crumbs"><a href="index.html#quadcopter">‹ Back to portfolio</a></p>
       <p class="eyebrow">Project · P-01</p>
       <h1 class="display case-title">Autonomous Payload Quadcopter</h1>
@@ -77,9 +77,9 @@
   <section class="section" aria-labelledby="details-title">
     <div class="wrap center reveal">
       <h2 class="headline" id="details-title">Details.</h2>
-      <ul class="chips" aria-label="Tools"><li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li></ul>
+      <ul class="chips reveal stagger" aria-label="Tools"><li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li></ul>
     </div>
-    <ol class="tiles wrap reveal">
+    <ol class="tiles wrap reveal stagger">
       <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
       <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
       <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>

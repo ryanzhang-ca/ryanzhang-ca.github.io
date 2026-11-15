@@ -41,6 +41,14 @@
 
   --ease: cubic-bezier(0.28, 0.11, 0.32, 1);  /* long, soft settle for reveals */
   --ease-out: cubic-bezier(0, 0, 0.5, 1);     /* quick response for hover and press */
+  --spring: cubic-bezier(0.34, 1.32, 0.64, 1); /* pop-ins: a small overshoot, then settle */
+}
+/* Where supported, the pop-in follows a real spring (damping 0.68, about 5% overshoot). */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(0, 0.029 3%, 0.102 6%, 0.203 9%, 0.318 12%, 0.437 15%, 0.588 19%, 0.721 23%, 0.83 27%,
+                     0.914 31%, 0.987 36%, 1.03 41%, 1.052 47%, 1.052 54%, 1.038 62%, 1.018 72%, 1.002 84%, 1);
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -264,7 +272,7 @@ button { font: inherit; letter-spacing: inherit; color: inherit; }
   color: transparent;
 }
 .card-stats b { font-size: clamp(2.25rem, 4.4vw, 3.75rem); }
-.card-stats span { display: block; margin-top: var(--s2); font-size: 0.875rem; color: var(--dark-text-2); }
+.card-stats > div > span { display: block; margin-top: var(--s2); font-size: 0.875rem; color: var(--dark-text-2); } /* the label, not the counting digits inside <b> */
 
 /* ---------- Project bands ---------- */
 
@@ -272,7 +280,6 @@ button { font: inherit; letter-spacing: inherit; color: inherit; }
 .media img { width: 100%; border-radius: var(--radius-l); }
 .media-square { width: min(640px, 100% - 2 * var(--gutter)); margin-inline: auto; }
 .media a { display: block; overflow: hidden; border-radius: var(--radius-l); }
-.media img { transition: scale 0.6s var(--ease); }
 figcaption { margin-top: var(--s3); font-size: 0.875rem; line-height: 1.43; text-align: center; color: var(--text-2); }
 .dark figcaption { color: var(--dark-text-2); }
 
@@ -410,6 +417,39 @@ figcaption { margin-top: var(--s3); font-size: 0.875rem; line-height: 1.43; text
               scale 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
 }
 
+/* Photos settle from a slight zoom as their card or frame arrives. */
+.js .card.reveal img, .js .media.reveal img { scale: 1.08; transition: scale 1.6s var(--ease) var(--d, 0s); }
+.js .card.reveal.in img, .js .media.reveal.in img { scale: none; }
+
+/* Groups whose items pop in one after another. The group itself stays put;
+   site.js numbers each item (--i) and CSS delays it by --step per item. */
+.js .reveal.stagger { opacity: 1; translate: none; }
+.js .stagger > * {
+  --delay: calc(var(--base, 0ms) + var(--i, 0) * var(--step, 80ms));
+  opacity: 0;
+  translate: 0 24px;
+  scale: 0.94;
+  transition: opacity 0.5s ease var(--delay), translate 0.8s var(--spring) var(--delay), scale 0.8s var(--spring) var(--delay);
+}
+.js .stagger.in > * { opacity: 1; translate: none; scale: none; }
+.js .chips.stagger { --step: 45ms; --base: 150ms; }
+.js .chips.stagger > * { scale: 0.8; translate: 0 8px; }
+.js .chips.stagger.in > * { scale: none; translate: none; }
+
+/* Big numbers pop out further, and count up while they do (site.js). */
+.js .stats.stagger { --step: 120ms; }
+.js .stats.stagger > * { scale: 0.7; translate: 0 16px; transition-duration: 0.5s, 0.9s, 0.9s; }
+.js .stats.stagger.in > * { scale: none; translate: none; }
+.js .card .card-stats > div {
+  --delay: calc(250ms + var(--i, 0) * 110ms);
+  opacity: 0;
+  scale: 0.7;
+  transition: opacity 0.5s ease var(--delay), scale 0.9s var(--spring) var(--delay);
+}
+.js .card.in .card-stats > div { opacity: 1; scale: none; }
+.stats dd, .card-stats b, [data-count] { font-variant-numeric: tabular-nums; }
+.count { display: inline-block; }
+
 /* ---------- Hover (mouse and trackpad only) ---------- */
 
 @media (hover: hover) {
@@ -420,7 +460,6 @@ figcaption { margin-top: var(--s3); font-size: 0.875rem; line-height: 1.43; text
   .nav nav a:not(.pill):hover { color: var(--link); }
   .card:hover { scale: 1.01; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1); }
   .card:hover .more { text-decoration: underline; text-underline-offset: 3px; }
-  .media a:hover img { scale: 1.02; }
   .f1:hover .mark { transform: rotate(360deg); }
   .f3:hover { text-decoration: underline; }
 }
@@ -501,8 +540,11 @@ figcaption { margin-top: var(--s3); font-size: 0.875rem; line-height: 1.43; text
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal { translate: none; transition: opacity 0.4s ease; }
-  .card, .media img, .mark, .menu-btn span, .more::after { transition: none; }
-  .card:hover, .media a:hover img { scale: none; }
+  /* Pop-ins become plain fades; numbers show their final value (site.js skips the count). */
+  .js .stagger > *, .js .stats.stagger > *, .js .chips.stagger > *, .js .card .card-stats > div { translate: none; scale: none; transition: opacity 0.4s ease; }
+  .js .card.reveal img, .js .media.reveal img { scale: none; transition: none; }
+  .card, .mark, .menu-btn span, .more::after { transition: none; }
+  .card:hover { scale: none; }
   .f1:hover .mark { transform: none; }
   .nav nav { translate: none; }
 }

@@ -47,7 +47,7 @@
 <main id="main">
 
   <section class="hero">
-    <div class="wrap center reveal">
+    <div class="wrap center reveal stagger">
       <p class="eyebrow">Hi, I'm</p>
       <h1 class="display">Ryan Zhang</h1>
       <p class="tagline">Mechatronics Engineering, University of Waterloo</p>
@@ -95,10 +95,10 @@
           <span class="more">Learn more</span>
         </div>
         <div class="card-stats" aria-hidden="true">
-          <div><b>4</b><span>Titles shipped</span></div>
-          <div><b>8M+</b><span>Total visits</span></div>
-          <div><b>10K+</b><span>Peak concurrent</span></div>
-          <div><b>$78K+</b><span>Revenue</span></div>
+          <div><b data-count>4</b><span>Titles shipped</span></div>
+          <div><b data-count>8M+</b><span>Total visits</span></div>
+          <div><b data-count>10K+</b><span>Peak concurrent</span></div>
+          <div><b data-count>$78K+</b><span>Revenue</span></div>
         </div>
       </a>
       <a class="card reveal" href="#robotics" style="--d: 0.08s">
@@ -122,14 +122,14 @@
       <a href="quadcopter.html" tabindex="-1" aria-hidden="true"><img src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440" loading="lazy"></a>
       <figcaption>Fig. 1 — The assembled quadcopter: F450 frame, flight controller and GPS mast. Propellers removed for the photo.</figcaption>
     </figure>
-    <ol class="tiles wrap reveal">
+    <ol class="tiles wrap reveal stagger">
       <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
       <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
       <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>
       <li>Currently integrating an M10 GPS module for waypoint navigation and an OpenCV pipeline for autonomous target tracking.</li>
     </ol>
     <div class="wrap center reveal">
-      <ul class="chips" aria-label="Tools"><li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li></ul>
+      <ul class="chips reveal stagger" aria-label="Tools"><li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li></ul>
       <a class="more" href="quadcopter.html">See photos</a>
     </div>
   </section>
@@ -144,14 +144,14 @@
       <a href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="images/px4-sitl-flight.jpg" alt="A simulated waypoint mission: QGroundControl on the left shows the planned route over a satellite map and the path flown so far; Gazebo on the right shows the simulated quadcopter hovering." width="1600" height="900" loading="lazy"></a>
       <figcaption>Fig. 2 — A waypoint mission in simulation: QGroundControl (left) and the simulated quadcopter in Gazebo (right).</figcaption>
     </figure>
-    <ol class="tiles wrap reveal">
+    <ol class="tiles wrap reveal stagger">
       <li>Cut the ground-station link mid-hover and confirmed PX4's staged response: hold for a 5&nbsp;s grace period, then return to launch and land.</li>
       <li>Injected a GPS failure in flight. With no position estimate, PX4 fell back to a blind landing in place and finished it even after GPS returned.</li>
       <li>Wrote a Python MAVLink script (pymavlink) that arms, takes off to 2.5&nbsp;m, streams altitude and lands, checking each command's acknowledgement.</li>
       <li>Fixed two bugs in it: takeoff was sent before arming was confirmed, and altitude readings lagged behind an unread message queue.</li>
     </ol>
     <div class="wrap center reveal">
-      <ul class="chips" aria-label="Tools"><li>PX4</li><li>MAVLink</li><li>Python</li><li>Gazebo</li><li>SITL</li><li>Linux (WSL2)</li></ul>
+      <ul class="chips reveal stagger" aria-label="Tools"><li>PX4</li><li>MAVLink</li><li>Python</li><li>Gazebo</li><li>SITL</li><li>Linux (WSL2)</li></ul>
       <a class="more ext" href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener">View on GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a>
     </div>
   </section>
@@ -162,19 +162,19 @@
       <h2 class="headline" id="lunate-title">Lunate Studios</h2>
       <p class="sub">Co-founded a game studio and led backend development across four published Roblox titles.</p>
     </div>
-    <dl class="stats wrap reveal">
-      <div><dt>Titles shipped</dt><dd>4</dd></div>
-      <div><dt>Total visits</dt><dd>8M+</dd></div>
-      <div><dt>Peak concurrent</dt><dd>10K+</dd></div>
-      <div><dt>Revenue</dt><dd>$78K+</dd></div>
+    <dl class="stats wrap reveal stagger">
+      <div><dt>Titles shipped</dt><dd data-count>4</dd></div>
+      <div><dt>Total visits</dt><dd data-count>8M+</dd></div>
+      <div><dt>Peak concurrent</dt><dd data-count>10K+</dd></div>
+      <div><dt>Revenue</dt><dd data-count>$78K+</dd></div>
     </dl>
-    <ol class="tiles tiles-3 wrap reveal">
+    <ol class="tiles tiles-3 wrap reveal stagger">
       <li>Architected persistent Luau backend systems (DataStoreService, OrderedDataStores) for progression, leaderboards, inventory, and economy.</li>
       <li>Used session drop-off data to redesign onboarding, raising tutorial completion from 24% to over 70%.</li>
       <li>Built raycasting and physics-based gameplay systems with co-founders, splitting ownership and reviewing each other's code.</li>
     </ol>
     <div class="wrap center reveal">
-      <ul class="chips" aria-label="Tools"><li>Luau</li><li>Backend systems</li><li>Analytics</li><li>Game dev</li></ul>
+      <ul class="chips reveal stagger" aria-label="Tools"><li>Luau</li><li>Backend systems</li><li>Analytics</li><li>Game dev</li></ul>
       <a class="more ext" href="https://www.roblox.com/games/120014184236770/Seal-A-Driveway" target="_blank" rel="noopener">Play: Seal a Driveway ↗<span class="sr-only"> (opens in a new tab)</span></a>
     </div>
   </section>
@@ -201,7 +201,7 @@
           <p class="when">Jun 2024 – Sep 2026</p>
           <h3>Bicycle Technician &amp; Youth Ride Leader</h3>
           <p class="org">Markham Cycles · Markham, ON</p>
-          <p class="wins"><b>1,100+</b> bikes refurbished · <b>800+</b> bikes distributed</p>
+          <p class="wins"><b data-count>1,100+</b> bikes refurbished · <b data-count>800+</b> bikes distributed</p>
         </div>
         <ul class="detail">
           <li>Diagnosed and repaired mechanical faults across braking, drivetrain, wheel, and tire systems on donated bicycles, using structured inspection to isolate root causes before committing parts.</li>
@@ -249,7 +249,7 @@
       <p class="about-lead">I like building machines that work end to end, from the airframe and power electronics to the embedded software that ties them together.</p>
       <p class="sub">Right now that's an autonomous payload quadcopter I'm building myself. I also co-founded Lunate Studios, where I led backend development across four published Roblox titles.</p>
     </div>
-    <dl class="facts wide reveal">
+    <dl class="facts wide reveal stagger">
       <div><dt>Studying</dt><dd>Mechatronics Engineering, University of Waterloo (2026–2031)</dd></div>
       <div><dt>Building</dt><dd>Autonomous payload quadcopter</dd></div>
       <div><dt>Co-founded</dt><dd>Lunate Studios</dd></div>
@@ -262,7 +262,7 @@
       <h2 class="headline" id="skills-title">Skills.</h2>
       <p class="sub">32 tools &amp; techniques</p>
     </div>
-    <div class="specs wrap reveal">
+    <div class="specs wrap reveal stagger">
       <div class="spec-row"><h3>CAD &amp; Prototyping</h3><p>SOLIDWORKS, AutoCAD, 3D Printing, Rapid Prototyping, Mechanical Assembly, Airframe Design, Brushless Motor Systems</p></div>
       <div class="spec-row"><h3>Embedded Systems &amp; Software</h3><p>C/C++, Python, MATLAB, Microcontrollers, Raspberry Pi, Linux, Git, OpenCV, Luau</p></div>
       <div class="spec-row"><h3>Electronics &amp; Hardware</h3><p>PCB Design, Circuit Design, Soldering, CNC Machining, Oscilloscopes, Multimeters, Power Distribution, MOSFET Switching, Flight Controllers, GPS / Navigation Modules</p></div>
