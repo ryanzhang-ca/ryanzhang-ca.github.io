@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Autonomous Payload Quadcopter — Ryan Zhang</title>
 <meta name="description" content="A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.">
-<meta name="theme-color" content="#F2F2EF">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ryanzhang-ca.github.io/quadcopter.html">
 <meta property="og:title" content="Autonomous Payload Quadcopter — Ryan Zhang">
@@ -16,61 +16,77 @@
 <link rel="apple-touch-icon" href="images/rz-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script>
+  // Content fades in as it scrolls into view. If site.js never runs, show everything.
+  document.documentElement.classList.add('js');
+  window.addEventListener('load', function () { if (!window.revealReady) document.documentElement.classList.remove('js'); });
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="bar grid">
-  <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="20" height="20">Ryan Zhang</a>
-  <span class="what">Mechatronics Engineering, University of Waterloo</span>
-  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
-  <nav id="site-menu" aria-label="Primary">
-    <a href="index.html#work">Work</a>
-    <a href="index.html#experience">Experience</a>
-    <a href="index.html#about">About</a>
-    <a href="index.html#skills">Skills</a>
-    <a href="index.html#contact">Contact</a>
-    <a href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé ↗<span class="sr-only"> (PDF, opens in a new tab)</span></a>
-  </nav>
+<header class="nav" id="top">
+  <div class="nav-in wide">
+    <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="22" height="22">Ryan Zhang</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
+    <nav id="site-menu" aria-label="Primary">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#contact">Contact</a>
+      <a class="pill pill-sm" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+    </nav>
+  </div>
 </header>
 
 <main id="main">
 
-  <section class="case-hero">
-    <div class="crumbs grid"><a class="txt" href="index.html#quadcopter">&larr; Back to portfolio</a></div>
-    <p class="hello">Project · P-01</p>
-    <h1 class="case-title">Autonomous Payload<br>Quadcopter</h1>
-    <div class="intro grid">
-      <p class="lead">A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.</p>
-      <p class="m1"><span class="k">Timeline</span>Jun 2026 – Present · Independent build</p>
-      <p class="m2"><span class="k">Status</span><span class="sig" aria-hidden="true"></span>In progress</p>
+  <section class="hero">
+    <div class="wrap center reveal">
+      <p class="crumbs"><a href="index.html#quadcopter">‹ Back to portfolio</a></p>
+      <p class="eyebrow">Project · P-01</p>
+      <h1 class="display case-title">Autonomous Payload Quadcopter</h1>
+      <p class="intro">A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.</p>
+      <ul class="meta">
+        <li><span class="k">Timeline</span> Jun 2026 – Present · Independent build</li>
+        <li><span class="dot dot-amber" aria-hidden="true"></span><span class="k">Status</span> In progress</li>
+      </ul>
     </div>
   </section>
 
-  <section class="section grid" aria-labelledby="photos-title">
-    <div class="label"><h2 id="photos-title">Build photos</h2><span>2 photos</span></div>
-    <figure class="case-photo case-photo-main">
-      <img src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440">
-      <figcaption>Fig. 1 — The assembled quadcopter: F450 frame, flight controller and GPS mast. Propellers removed for the photo.</figcaption>
-    </figure>
-    <figure class="case-photo case-photo-side">
-      <img src="images/quadcopter-esc-soldering.jpg" alt="Soldering ESC connections onto the quadcopter frame" width="640" height="843" loading="lazy">
-      <figcaption>Fig. 2 — Soldering ESC connections onto the quadcopter frame.</figcaption>
-    </figure>
+  <section class="section alt" aria-labelledby="photos-title">
+    <div class="wrap center reveal">
+      <h2 class="headline" id="photos-title">Build photos.</h2>
+      <p class="sub">2 photos</p>
+    </div>
+    <div class="photos wide reveal">
+      <figure>
+        <img src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440">
+        <figcaption>Fig. 1 — The assembled quadcopter: F450 frame, flight controller and GPS mast. Propellers removed for the photo.</figcaption>
+      </figure>
+      <figure>
+        <img src="images/quadcopter-esc-soldering.jpg" alt="Soldering ESC connections onto the quadcopter frame" width="640" height="843" loading="lazy">
+        <figcaption>Fig. 2 — Soldering ESC connections onto the quadcopter frame.</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="section grid" aria-labelledby="details-title">
-    <div class="label"><h2 id="details-title">Details</h2><span>Pixhawk, Raspberry Pi, OpenCV, Power electronics, Embedded systems</span></div>
-    <ol class="points case-points">
+  <section class="section" aria-labelledby="details-title">
+    <div class="wrap center reveal">
+      <h2 class="headline" id="details-title">Details.</h2>
+      <ul class="chips" aria-label="Tools"><li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li></ul>
+    </div>
+    <ol class="tiles wrap reveal">
       <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
       <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
       <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>
       <li>Currently integrating an M10 GPS module for waypoint navigation and an OpenCV pipeline for autonomous target tracking.</li>
     </ol>
-    <div class="spec-wrap">
-      <p class="k small">Key components</p>
+    <div class="wrap reveal">
+      <h3 class="spec-title">Key components</h3>
       <dl class="spec">
         <div><dt>Frame</dt><dd>F450</dd></div>
         <div><dt>Flight control</dt><dd>Pixhawk 6C</dd></div>
@@ -85,10 +101,12 @@
 
 </main>
 
-<footer class="foot grid">
-  <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="32" height="32">© 2026 Ryan Zhang</span>
-  <span class="f2">Built with HTML &amp; CSS</span>
-  <a class="f3" href="index.html">&larr; Back to portfolio</a>
+<footer class="foot">
+  <div class="foot-in wide">
+    <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="24" height="24">© 2026 Ryan Zhang</span>
+    <span class="f2">Built with HTML &amp; CSS</span>
+    <a class="f3" href="index.html">‹ Back to portfolio</a>
+  </div>
 </footer>
 
 <script src="site.js" defer></script>
