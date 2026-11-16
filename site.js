@@ -366,6 +366,77 @@
     requestTick();
   }
 
+  // ---------- Jumps within a page ----------
+  // Back to top, the project name in a project's bar, section links. A short
+  // hop scrolls smoothly. A long one would scrub every pinned scene backwards
+  // on the way, so the page fades out, moves, and fades back in instead.
+  var fade = null;
+  function samePage(a) {
+    var strip = function (path) { return path.replace(/index\.html$/, ''); };
+    return a.origin === location.origin && strip(a.pathname) === strip(location.pathname);
+  }
+  function instantScroll(y) {
+    // 'instant' overrides the page's smooth scrolling; the style change is a
+    // backstop for browsers that don't know that value yet.
+    var html = document.documentElement, before = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    void getComputedStyle(html).scrollBehavior;
+    try { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, y); }
+    html.style.scrollBehavior = before;
+  }
+  function jumpTo(y, target) {
+    var land = function () {
+      if (target) {
+        // Move keyboard focus along with the view, as a normal link jump would.
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+      } else if (document.activeElement && document.activeElement !== document.body) {
+        document.activeElement.blur();
+      }
+    };
+    var distance = Math.abs(window.scrollY - y);
+    if (reduceMotion) { instantScroll(y); land(); return; }
+    if (distance < window.innerHeight * 1.5) {
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      land();
+      return;
+    }
+    if (!fade) {
+      fade = document.createElement('div');
+      fade.className = 'page-fade';
+      fade.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(fade);
+      fade.getBoundingClientRect();                       // start from transparent
+    }
+    fade.classList.add('on');
+    setTimeout(function () {
+      instantScroll(y);
+      scenes.forEach(function (s) { s.dirty = true; renderScene(s); });
+      var revealed = false;
+      var reveal = function () { if (revealed) return; revealed = true; fade.classList.remove('on'); land(); };
+      // Fade back in once the new spot has been drawn (with a timer as a backstop).
+      requestAnimationFrame(function () { requestAnimationFrame(reveal); });
+      setTimeout(reveal, 150);
+    }, 200);
+  }
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || !samePage(a)) return;
+    var hash = a.hash;
+    var target = hash && hash !== '#top' ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+    if (hash && hash !== '#top' && !target) return;          // let the browser handle anything unusual
+    e.preventDefault();
+    var y = 0;
+    if (target) {
+      // A pinned scene starts exactly at its top; other sections leave room for the bar.
+      var pad = target.classList.contains('scene') ? 0 : parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      y = Math.max(0, target.getBoundingClientRect().top + window.scrollY - pad);
+    }
+    if (location.hash !== (hash || '')) history.pushState(null, '', hash || location.pathname + location.search);
+    jumpTo(y, target);
+  });
+
   window.revealReady = true;
 
   // ---------- Copy-to-clipboard buttons ----------
