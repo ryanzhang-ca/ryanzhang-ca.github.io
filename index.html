@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ryan Zhang — Mechatronics Engineering</title>
+<title>Ryan Zhang · Mechatronics Engineering</title>
 <meta name="description" content="Ryan Zhang is a mechatronics engineering student building autonomous systems end to end: mechanical design, power electronics, and the embedded software that ties them together.">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ryanzhang-ca.github.io/">
-<meta property="og:title" content="Ryan Zhang — Mechatronics Engineering">
-<meta property="og:description" content="Mechatronics engineering student building autonomous systems end to end: mechanical design, power electronics, and embedded software.">
+<meta property="og:title" content="Ryan Zhang · Mechatronics Engineering">
+<meta property="og:description" content="Ryan Zhang is a mechatronics engineering student building autonomous systems end to end: mechanical design, power electronics, and the embedded software that ties them together.">
 <meta property="og:image" content="https://ryanzhang-ca.github.io/images/rz-logo.png">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="images/rz-logo.png">
@@ -19,9 +19,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script>
-  // Content fades in as it scrolls into view. If site.js never runs, show everything.
-  document.documentElement.classList.add('js');
-  window.addEventListener('load', function () { if (!window.revealReady) document.documentElement.classList.remove('js'); });
+  // Before the first paint: apply a saved light/dark choice and switch on the
+  // scroll effects. If site.js never runs, everything is shown plainly.
+  (function () {
+    var r = document.documentElement, t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
+    r.classList.add('js');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) r.classList.add('scenes-on');
+    window.addEventListener('load', function () { if (!window.revealReady) { r.classList.remove('js'); r.classList.remove('scenes-on'); } });
+  })();
 </script>
 </head>
 <body>
@@ -29,244 +36,129 @@
 
 <header class="nav">
   <div class="nav-in wide">
-    <a class="who" href="#top"><img src="images/rz-logo.png" alt="" width="22" height="22">Ryan Zhang</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
+    <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="22" height="22">Ryan Zhang</a>
     <nav id="site-menu" aria-label="Primary">
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html#work">Work</a>
+      <a href="experience.html">Experience</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
       <a class="pill pill-sm" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé<span class="sr-only"> (PDF, opens in a new tab)</span></a>
     </nav>
+    <button class="theme-btn" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.7A8.6 8.6 0 0 1 9.3 3.5a8.6 8.6 0 1 0 11.2 11.2z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.8v2.4M12 19.8v2.4M1.8 12h2.4M19.8 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/></svg></button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
   </div>
 </header>
 
-<p class="ribbon"><span><b>Now · Nov 2026.</b> First hover test done on the quadcopter. Next: GPS waypoint navigation. <a class="more" href="#quadcopter">See the build</a></span></p>
+<p class="ribbon"><span><b>Now · Nov 2026.</b> First hover test done on the quadcopter. Next: GPS waypoint navigation. <a class="more" href="quadcopter.html">See the build</a></span></p>
 
 <main id="main">
 
-  <section class="hero">
-    <div class="wrap center reveal stagger">
-      <p class="eyebrow">Hi, I'm</p>
-      <h1 class="display">Ryan Zhang</h1>
-      <p class="tagline">Mechatronics Engineering, University of Waterloo</p>
-      <p class="intro">Mechatronics engineering student building autonomous systems end to end: mechanical design, power electronics, and the embedded software that ties them together.</p>
-      <div class="ctas">
-        <a class="pill" href="mailto:ryan.zhang1@uwaterloo.ca">Get in touch</a>
-        <a class="more" href="#work">View projects</a>
-        <a class="more ext" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé ↗<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+  <section class="scene" aria-label="Introduction" style="--len: 340">
+    <div class="scene-stage wide">
+      <div class="scene-copy">
+        <div class="beat" data-from="0" data-to="0.3">
+          <p class="eyebrow">Hi, I'm</p>
+          <h1 class="display">Ryan Zhang</h1>
+          <p>Mechatronics Engineering, University of Waterloo</p>
+        </div>
+        <div class="beat" data-from="0.34" data-to="0.64">
+          <h2>I build autonomous systems end to end.</h2>
+          <p>Mechanical design, power electronics, and the embedded software that ties them together.</p>
+        </div>
+        <div class="beat" data-from="0.68" data-to="1">
+          <h2>Right now: a quadcopter that flies itself.</h2>
+          <p>A Pixhawk flight controller, a Raspberry Pi for vision, and GPS on a mast.</p>
+          <div class="ctas"><a class="pill" href="quadcopter.html">Learn more</a><a class="pill pill-secondary" href="#work">All projects</a></div>
+        </div>
       </div>
-      <p class="status"><span class="dot" aria-hidden="true"></span>Open to Winter 2027 co-op roles</p>
-      <p class="links-row">
-        <a class="more ext" href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub</a>
-        <a class="more ext" href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="more ext" href="mailto:ryan.zhang1@uwaterloo.ca">Email</a>
-      </p>
+      <div class="scene-media">
+        <canvas data-src="images/quadcopter-assembled.jpg" data-camera='[[0,0.5,0.44,1.7],[0.3,0.5,0.44,1.6],[0.64,0.5,0.48,1],[1,0.5,0.48,1]]' role="img" aria-label="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast."></canvas>
+        <img class="scene-fallback" src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440">
+      </div>
     </div>
   </section>
 
-  <section class="section alt" id="work" aria-labelledby="work-title">
-    <div class="wrap center reveal">
-      <h2 class="headline" id="work-title">Selected work.</h2>
-      <p class="sub">4 projects</p>
+  <section class="intro-strip wrap reveal stagger">
+    <p class="status"><span class="dot" aria-hidden="true"></span>Open to Winter 2027 co-op roles</p>
+    <div class="ctas">
+      <a class="pill" href="mailto:ryan.zhang1@uwaterloo.ca">Get in touch</a>
+      <a class="more" href="#work">View projects</a>
+      <a class="more ext" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé ↗<span class="sr-only"> (PDF, opens in a new tab)</span></a>
     </div>
-    <div class="cards wide">
-      <a class="card reveal" href="#quadcopter">
-        <div class="card-text">
-          <p class="card-eyebrow">01 · Hardware, embedded systems · 2026–</p>
-          <h3>Autonomous Payload Quadcopter</h3>
-          <span class="more">Learn more</span>
-        </div>
-        <img src="images/quadcopter-assembled.jpg" alt="" width="1500" height="1440" loading="lazy">
-      </a>
-      <a class="card reveal" href="#px4" style="--d: 0.08s">
-        <div class="card-text">
-          <p class="card-eyebrow">02 · Flight software, simulation · 2026</p>
-          <h3>PX4 SITL Experiments</h3>
-          <span class="more">Learn more</span>
-        </div>
-        <img src="images/px4-sitl-flight.jpg" alt="" width="1600" height="900" loading="lazy">
-      </a>
-      <a class="card card-dark reveal" href="#lunate">
-        <div class="card-text">
-          <p class="card-eyebrow">03 · Game backend, analytics · 2026–</p>
-          <h3>Lunate Studios</h3>
-          <span class="more">Learn more</span>
-        </div>
+    <p class="links-row">
+      <a class="more ext" href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      <a class="more ext" href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+      <a class="more ext" href="mailto:ryan.zhang1@uwaterloo.ca">Email</a>
+    </p>
+  </section>
+
+  <section id="work" aria-labelledby="work-title">
+    <div class="section alt" style="padding-bottom: 0">
+      <div class="wrap center reveal">
+        <h2 class="headline" id="work-title">Selected work.</h2>
+        <p class="sub">4 projects. Each one has its own page.</p>
+      </div>
+
+      <article class="unit reveal" aria-labelledby="u-quad">
+        <p class="unit-eyebrow">Project 01 · In progress</p>
+        <h3 class="unit-title" id="u-quad">Autonomous Payload Quadcopter</h3>
+        <p class="unit-tag">A self-built drone that carries and releases a liquid payload on its own.</p>
+        <div class="ctas"><a class="pill" href="quadcopter.html">Learn more</a><a class="pill pill-secondary" href="quadcopter.html#photos">See photos</a></div>
+        <div class="unit-media photo"><img class="zoom-in" src="images/quadcopter-assembled.jpg" alt="" width="1500" height="1440" loading="lazy"></div>
+      </article>
+    </div>
+
+    <article class="unit reveal" aria-labelledby="u-px4">
+      <p class="unit-eyebrow">Project 02 · Simulation</p>
+      <h3 class="unit-title" id="u-px4">PX4 SITL Experiments</h3>
+      <p class="unit-tag">Flight software, tested in simulation before it flies.</p>
+      <div class="ctas"><a class="pill" href="px4.html">Learn more</a><a class="pill pill-secondary" href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener">GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a></div>
+      <div class="unit-media"><img class="zoom-in" src="images/px4-sitl-flight.jpg" alt="" width="1600" height="900" loading="lazy"></div>
+    </article>
+
+    <div class="tiles2">
+      <article class="tile2 dark-tile reveal" aria-labelledby="u-lunate">
+        <p class="unit-eyebrow">Project 03 · Shipped</p>
+        <h3 class="unit-title" id="u-lunate">Lunate Studios</h3>
+        <p class="unit-tag">Four Roblox games. 8M+ visits.</p>
+        <div class="ctas"><a class="pill" href="lunate.html">Learn more</a><a class="pill pill-secondary" href="https://www.roblox.com/games/120014184236770/Seal-A-Driveway" target="_blank" rel="noopener">Play ↗<span class="sr-only"> (opens in a new tab)</span></a></div>
         <div class="card-stats" aria-hidden="true">
           <div><b data-count>4</b><span>Titles shipped</span></div>
           <div><b data-count>8M+</b><span>Total visits</span></div>
           <div><b data-count>10K+</b><span>Peak concurrent</span></div>
           <div><b data-count>$78K+</b><span>Revenue</span></div>
         </div>
-      </a>
-      <a class="card reveal" href="#robotics" style="--d: 0.08s">
-        <div class="card-text">
-          <p class="card-eyebrow">04 · Robotics, controls · 2022–26</p>
-          <h3>VEX Competition Robot</h3>
-          <span class="more">Learn more</span>
-        </div>
-        <img src="images/vex-robot.jpg" alt="" width="1096" height="1220" loading="lazy">
-      </a>
+      </article>
+      <article class="tile2 reveal" aria-labelledby="u-vex" style="--d: 0.08s">
+        <p class="unit-eyebrow">Project 04 · 2022–26</p>
+        <h3 class="unit-title" id="u-vex">VEX Competition Robot</h3>
+        <p class="unit-tag">Team leader. Regional silver medal.</p>
+        <div class="ctas"><a class="pill" href="vex.html">Learn more</a></div>
+        <img class="zoom-in" src="images/vex-robot.jpg" alt="" width="1096" height="1220" loading="lazy">
+      </article>
     </div>
   </section>
 
-  <section class="section" id="quadcopter" aria-labelledby="quad-title">
-    <div class="wrap center reveal">
-      <p class="eyebrow">Project 01 · Jun 2026 – Present · In progress</p>
-      <h2 class="headline" id="quad-title">Autonomous Payload Quadcopter</h2>
-      <p class="sub">A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.</p>
-    </div>
-    <figure class="media media-square reveal">
-      <a href="quadcopter.html" tabindex="-1" aria-hidden="true"><img src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440" loading="lazy"></a>
-      <figcaption>Fig. 1 — The assembled quadcopter: F450 frame, flight controller and GPS mast. Propellers removed for the photo.</figcaption>
-    </figure>
-    <ol class="tiles wrap reveal stagger">
-      <li>Paired a Pixhawk 6C flight controller with a Raspberry Pi companion computer so vision workloads never compete with the flight-control loop.</li>
-      <li>Designed a MOSFET switching circuit (IRF520 driver) to actuate a water-pump payload from GPIO, isolating logic signals from pump inrush current.</li>
-      <li>Built the power distribution around a 5V UBEC, separating the logic rail from high-current ESC loads for stability under full throttle.</li>
-      <li>Currently integrating an M10 GPS module for waypoint navigation and an OpenCV pipeline for autonomous target tracking.</li>
-    </ol>
-    <div class="wrap center reveal">
-      <ul class="chips reveal stagger" aria-label="Tools"><li>Pixhawk</li><li>Raspberry Pi</li><li>OpenCV</li><li>Power electronics</li><li>Embedded systems</li></ul>
-      <a class="more" href="quadcopter.html">See photos</a>
-    </div>
-  </section>
-
-  <section class="section alt" id="px4" aria-labelledby="px4-title">
-    <div class="wrap center reveal">
-      <p class="eyebrow">Project 02 · Nov 2026 · Simulation</p>
-      <h2 class="headline" id="px4-title">PX4 SITL Experiments</h2>
-      <p class="sub">Testing the quadcopter's flight software in software-in-the-loop simulation before trusting it on real hardware: PX4 built from source, a simulated quad in Gazebo, and QGroundControl as the ground station.</p>
-    </div>
-    <figure class="media wrap reveal">
-      <a href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="images/px4-sitl-flight.jpg" alt="A simulated waypoint mission: QGroundControl on the left shows the planned route over a satellite map of the University of Waterloo campus and the path flown so far; Gazebo on the right shows the simulated quadcopter in flight." width="1600" height="900" loading="lazy"></a>
-      <figcaption>Fig. 2 — A waypoint mission in simulation: QGroundControl (left) and the simulated quadcopter in Gazebo (right).</figcaption>
-    </figure>
-    <ol class="tiles wrap reveal stagger">
-      <li>Cut the ground-station link mid-hover and confirmed PX4's staged response: hold for a 5&nbsp;s grace period, then return to launch and land.</li>
-      <li>Injected a GPS failure in flight. With no position estimate, PX4 fell back to a blind landing in place and finished it even after GPS returned.</li>
-      <li>Wrote a Python MAVLink script (pymavlink) that arms, takes off to 2.5&nbsp;m, streams altitude and lands, checking each command's acknowledgement.</li>
-      <li>Fixed two bugs in it: takeoff was sent before arming was confirmed, and altitude readings lagged behind an unread message queue.</li>
-    </ol>
-    <div class="wrap center reveal">
-      <ul class="chips reveal stagger" aria-label="Tools"><li>PX4</li><li>MAVLink</li><li>Python</li><li>Gazebo</li><li>SITL</li><li>Linux (WSL2)</li></ul>
-      <a class="more ext" href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener">View on GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a>
-    </div>
-  </section>
-
-  <section class="section dark" id="lunate" aria-labelledby="lunate-title">
-    <div class="wrap center reveal">
-      <p class="eyebrow">Project 03 · Jul 2026 – Present · Shipped</p>
-      <h2 class="headline" id="lunate-title">Lunate Studios</h2>
-      <p class="sub">Co-founded a game studio and led backend development across four published Roblox titles.</p>
-    </div>
-    <dl class="stats wrap reveal stagger">
-      <div><dt>Titles shipped</dt><dd data-count>4</dd></div>
-      <div><dt>Total visits</dt><dd data-count>8M+</dd></div>
-      <div><dt>Peak concurrent</dt><dd data-count>10K+</dd></div>
-      <div><dt>Revenue</dt><dd data-count>$78K+</dd></div>
-    </dl>
-    <ol class="tiles tiles-3 wrap reveal stagger">
-      <li>Architected persistent Luau backend systems (DataStoreService, OrderedDataStores) for progression, leaderboards, inventory, and economy.</li>
-      <li>Used session drop-off data to redesign onboarding, raising tutorial completion from 24% to over 70%.</li>
-      <li>Built raycasting and physics-based gameplay systems with co-founders, splitting ownership and reviewing each other's code.</li>
-    </ol>
-    <div class="wrap center reveal">
-      <ul class="chips reveal stagger" aria-label="Tools"><li>Luau</li><li>Backend systems</li><li>Analytics</li><li>Game dev</li></ul>
-      <a class="more ext" href="https://www.roblox.com/games/120014184236770/Seal-A-Driveway" target="_blank" rel="noopener">Play: Seal a Driveway ↗<span class="sr-only"> (opens in a new tab)</span></a>
-    </div>
-  </section>
-
-  <section class="section" id="experience" aria-labelledby="exp-title">
+  <section class="section alt" aria-labelledby="exp-title">
     <div class="wrap center reveal">
       <h2 class="headline" id="exp-title">Experience.</h2>
       <p class="sub">2022 – present</p>
+      <ol class="rows">
+        <li><span class="when">Jul 2026 – Present</span><b>Co-Founder &amp; Lead Developer</b><span>Lunate Studios</span></li>
+        <li><span class="when">Jun 2024 – Sep 2026</span><b>Bicycle Technician &amp; Youth Ride Leader</b><span>Markham Cycles</span></li>
+        <li><span class="when">Sep 2022 – Jun 2026</span><b>Robotics Team Leader</b><span>Pickering High School</span></li>
+        <li><span class="when">Sep 2023 – Jun 2026</span><b>DECA Competitor &amp; Team Trainer</b><span>Pickering High School</span></li>
+      </ol>
+      <div class="ctas"><a class="more" href="experience.html">See all experience</a></div>
     </div>
-    <ol class="exp-list wrap">
-      <li class="exp reveal">
-        <div class="role">
-          <p class="when">Jul 2026 – Present</p>
-          <h3>Co-Founder &amp; Lead Developer</h3>
-          <p class="org">Lunate Studios · Self-employed</p>
-        </div>
-        <div class="detail">
-          <p>Co-founded a studio and led development across a portfolio of 4 published Roblox games.</p>
-          <a class="more" href="#lunate">See the project</a>
-        </div>
-      </li>
-      <li class="exp reveal">
-        <div class="role">
-          <p class="when">Jun 2024 – Sep 2026</p>
-          <h3>Bicycle Technician &amp; Youth Ride Leader</h3>
-          <p class="org">Markham Cycles · Markham, ON</p>
-          <p class="wins"><b data-count>1,100+</b> bikes refurbished · <b data-count>800+</b> bikes distributed</p>
-        </div>
-        <ul class="detail">
-          <li>Diagnosed and repaired mechanical faults across braking, drivetrain, wheel, and tire systems on donated bicycles, using structured inspection to isolate root causes before committing parts.</li>
-          <li>Replaced and adjusted worn components to restore bikes to safe operating condition, contributing to a team effort that refurbished 1,100+ bicycles and distributed 800+ to over 1,000 community members.</li>
-          <li>Led youth group rides and onboarded new volunteers on repair workflows and safety practices, sustaining shop throughput through high-volume donation periods.</li>
-        </ul>
-      </li>
-      <li class="exp reveal" id="robotics">
-        <div class="role">
-          <p class="when">Sep 2022 – Jun 2026</p>
-          <h3>Robotics Team Leader</h3>
-          <p class="org">Pickering High School · Ajax, ON</p>
-          <p class="wins"><b>Silver</b> regional medal · <b>VEX</b> competition robot</p>
-          <figure>
-            <img src="images/vex-robot.jpg" alt="Top-down photo of the VEX competition robot: an aluminum chassis with a tread conveyor down the middle, red and green gears on the front axle, and a row of rollers across the front." width="1096" height="1220" loading="lazy">
-            <figcaption>Fig. 3 — The VEX competition robot, from above.</figcaption>
-          </figure>
-        </div>
-        <ul class="detail">
-          <li>Directed the mechanical design, fabrication, and wiring of a VEX competition robot, integrating an IMU, distance sensor, and a pneumatics subsystem through iterative prototyping that improved reliability season over season.</li>
-          <li>Programmed and tuned autonomous and driver-controlled routines using IMU and distance-sensor feedback for closed-loop correction, coordinating with teammates to resolve faults inside tight competition deadlines.</li>
-          <li>Coached new members on tool usage, wiring, and safety procedures, building a team capable of independent troubleshooting and carrying it to a regional silver medal finish.</li>
-        </ul>
-      </li>
-      <li class="exp reveal">
-        <div class="role">
-          <p class="when">Sep 2023 – Jun 2026</p>
-          <h3>DECA Competitor &amp; Team Trainer</h3>
-          <p class="org">Pickering High School · Ajax, ON</p>
-          <p class="wins"><b>3×</b> ICDC finalist · <b>4th</b> in Atlanta</p>
-        </div>
-        <ul class="detail">
-          <li>Placed 4th in Atlanta, 6th in Anaheim, and 10th in Orlando as a three-time ICDC Finalist, qualifying for the international conference in three consecutive years.</li>
-          <li>Competed in DECA’s Virtual Business Challenge – Personal Finance, applying financial modelling and business analysis to simulated case studies under timed decision cycles.</li>
-          <li>Trained newer members in case analysis, presentation delivery, and competition strategy, expanding the chapter’s pool of qualifying competitors.</li>
-        </ul>
-      </li>
-    </ol>
   </section>
 
-  <section class="section alt" id="about" aria-labelledby="about-title">
+  <section class="section" aria-labelledby="about-title">
     <div class="wrap center reveal">
       <img class="about-mark" src="images/rz-logo.png" alt="Ryan's RZ monogram: the letters R and Z drawn as circuit traces inside a gear" width="96" height="96" loading="lazy">
       <h2 class="sr-only" id="about-title">About</h2>
       <p class="about-lead">I like building machines that work end to end, from the airframe and power electronics to the embedded software that ties them together.</p>
-      <p class="sub">Right now that's an autonomous payload quadcopter I'm building myself. I also co-founded Lunate Studios, where I led backend development across four published Roblox titles.</p>
-    </div>
-    <dl class="facts wide reveal stagger">
-      <div><dt>Studying</dt><dd>Mechatronics Engineering, University of Waterloo (2026–2031)</dd></div>
-      <div><dt>Building</dt><dd>Autonomous payload quadcopter</dd></div>
-      <div><dt>Co-founded</dt><dd>Lunate Studios</dd></div>
-      <div><dt>Looking for</dt><dd>Winter 2027 mechatronics co&#8209;op</dd></div>
-    </dl>
-  </section>
-
-  <section class="section" id="skills" aria-labelledby="skills-title">
-    <div class="wrap center reveal">
-      <h2 class="headline" id="skills-title">Skills.</h2>
-      <p class="sub">32 tools &amp; techniques</p>
-    </div>
-    <div class="specs wrap reveal stagger">
-      <div class="spec-row"><h3>CAD &amp; Prototyping</h3><p>SOLIDWORKS, AutoCAD, 3D Printing, Rapid Prototyping, Mechanical Assembly, Airframe Design, Brushless Motor Systems</p></div>
-      <div class="spec-row"><h3>Embedded Systems &amp; Software</h3><p>C/C++, Python, MATLAB, Microcontrollers, Raspberry Pi, Linux, Git, OpenCV, Luau</p></div>
-      <div class="spec-row"><h3>Electronics &amp; Hardware</h3><p>PCB Design, Circuit Design, Soldering, CNC Machining, Oscilloscopes, Multimeters, Power Distribution, MOSFET Switching, Flight Controllers, GPS / Navigation Modules</p></div>
-      <div class="spec-row"><h3>Controls</h3><p>PID Tuning, Waypoint Navigation, PX4 Autopilot, MAVLink, Gazebo&nbsp;SITL, Failsafe Testing</p></div>
+      <div class="ctas"><a class="more" href="about.html">More about me</a><a class="more" href="about.html#skills">Skills</a></div>
     </div>
   </section>
 
@@ -274,15 +166,15 @@
     <div class="wrap center reveal">
       <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Open to Winter 2027 co-op roles</p>
       <h2 class="display" id="contact-title">Get in touch.</h2>
-      <p class="sub">Looking for a mechatronics co-op for Winter 2027 — happy to talk about the quadcopter build, hardware/software integration, or anything else.</p>
+      <p class="sub">Looking for a mechatronics co-op for Winter 2027. Happy to talk about the quadcopter build, hardware/software integration, or anything else.</p>
       <a class="email" href="mailto:ryan.zhang1@uwaterloo.ca">ryan.zhang1@uwaterloo.ca</a>
       <div class="ctas">
         <a class="pill" href="mailto:ryan.zhang1@uwaterloo.ca">Email me</a>
         <button class="pill pill-secondary" type="button" data-copy="ryan.zhang1@uwaterloo.ca">Copy email</button>
       </div>
       <p class="links-row">
-        <a class="more ext" href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub</a>
-        <a class="more ext" href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="more ext" href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="more ext" href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
         <a class="more ext" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé ↗<span class="sr-only"> (PDF, opens in a new tab)</span></a>
       </p>
     </div>
@@ -291,10 +183,39 @@
 </main>
 
 <footer class="foot">
-  <div class="foot-in wide">
-    <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="24" height="24">© 2026 Ryan Zhang</span>
-    <span class="f2">Built with HTML &amp; CSS</span>
-    <a class="f3" href="#top">Back to top ↑</a>
+  <div class="wide">
+    <div class="foot-dir">
+      <div>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="quadcopter.html">Autonomous Payload Quadcopter</a></li>
+          <li><a href="px4.html">PX4 SITL Experiments</a></li>
+          <li><a href="lunate.html">Lunate Studios</a></li>
+          <li><a href="vex.html">VEX Competition Robot</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>About</h2>
+        <ul>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="about.html">About and skills</a></li>
+          <li><a href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)<span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:ryan.zhang1@uwaterloo.ca">Email</a></li>
+          <li><a href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-in">
+      <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="24" height="24">© 2026 Ryan Zhang</span>
+      <span class="f2">Built with HTML &amp; CSS</span>
+      <a class="f3" href="#top">Back to top ↑</a>
+    </div>
   </div>
 </footer>
 

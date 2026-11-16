@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lunate Studios · Ryan Zhang</title>
+<meta name="description" content="Lunate Studios: a game studio Ryan co-founded, with four published Roblox titles, 8M+ visits, 10K+ peak concurrent players and $78K+ in developer revenue.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ryanzhang-ca.github.io/lunate.html">
+<meta property="og:title" content="Lunate Studios · Ryan Zhang">
+<meta property="og:description" content="Lunate Studios: a game studio Ryan co-founded, with four published Roblox titles, 8M+ visits, 10K+ peak concurrent players and $78K+ in developer revenue.">
+<meta property="og:image" content="https://ryanzhang-ca.github.io/images/rz-logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="images/rz-logo.png">
+<link rel="apple-touch-icon" href="images/rz-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+  // Before the first paint: apply a saved light/dark choice and switch on the
+  // scroll effects. If site.js never runs, everything is shown plainly.
+  (function () {
+    var r = document.documentElement, t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
+    r.classList.add('js');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) r.classList.add('scenes-on');
+    window.addEventListener('load', function () { if (!window.revealReady) { r.classList.remove('js'); r.classList.remove('scenes-on'); } });
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav nav--static">
+  <div class="nav-in wide">
+    <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="22" height="22">Ryan Zhang</a>
+    <nav id="site-menu" aria-label="Primary">
+      <a href="index.html#work" aria-current="page">Work</a>
+      <a href="experience.html">Experience</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a class="pill pill-sm" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+    </nav>
+    <button class="theme-btn" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.7A8.6 8.6 0 0 1 9.3 3.5a8.6 8.6 0 1 0 11.2 11.2z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.8v2.4M12 19.8v2.4M1.8 12h2.4M19.8 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/></svg></button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="localnav">
+  <div class="localnav-in wide">
+    <span class="ln-title">Lunate Studios</span>
+    <nav aria-label="Lunate Studios">
+      <a href="#overview">Overview</a>
+      <a href="#details">Details</a>
+      <a class="pill pill-sm" href="https://www.roblox.com/games/120014184236770/Seal-A-Driveway" target="_blank" rel="noopener">Play ↗<span class="sr-only"> (opens in a new tab)</span></a>
+    </nav>
+  </div>
+</div>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap center reveal stagger">
+      <p class="eyebrow">Project 03 · Jul 2026 – Present · Shipped</p>
+      <h1 class="page-title">Lunate Studios</h1>
+      <p class="intro">Co-founded a game studio and led backend development across four published Roblox titles.</p>
+      <div class="ctas"><a class="pill" href="https://www.roblox.com/games/120014184236770/Seal-A-Driveway" target="_blank" rel="noopener">Play Seal a Driveway ↗<span class="sr-only"> (opens in a new tab)</span></a></div>
+    </div>
+  </section>
+
+  <section class="scene scene--stats" id="overview" aria-label="Lunate Studios in numbers" style="--len: 420">
+    <div class="scene-stage wide">
+      <div class="scene-copy">
+        <div class="beat" data-from="0" data-to="0.24">
+          <span class="big-num" data-scrub>4</span><span class="big-label">Titles shipped</span>
+          <p>Published Roblox games, built with my co-founders.</p>
+        </div>
+        <div class="beat" data-from="0.28" data-to="0.48">
+          <span class="big-num" data-scrub>8M+</span><span class="big-label">Total visits</span>
+          <p>Across the four titles.</p>
+        </div>
+        <div class="beat" data-from="0.52" data-to="0.72">
+          <span class="big-num" data-scrub>10K+</span><span class="big-label">Peak concurrent players</span>
+          <p>Backend systems that kept player data reliable at peak.</p>
+        </div>
+        <div class="beat" data-from="0.76" data-to="1">
+          <span class="big-num" data-scrub>$78K+</span><span class="big-label">Developer revenue</span>
+          <p>From in-game economies and developer product monetization.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="details" aria-labelledby="details-title">
+    <div class="wrap center reveal">
+      <h2 class="headline" id="details-title">What I built.</h2>
+      <ul class="chips reveal stagger" aria-label="Tools"><li>Luau</li><li>Backend systems</li><li>Analytics</li><li>Game dev</li></ul>
+    </div>
+    <ol class="tiles wrap reveal stagger">
+      <li>Co-founded a studio and led development across a portfolio of 4 published Roblox games, reaching 8M+ visits and 10K+ peak concurrent players while generating over $78k in developer revenue.</li>
+      <li>Architected persistent backend systems in Luau using DataStoreService and OrderedDataStores, delivering player progression, global leaderboards, inventories, and in-game economies that sustained state reliably at peak concurrency and enabled developer product monetization.</li>
+      <li>Instrumented custom player analytics and used session drop-off data to redesign onboarding, lifting tutorial completion from 24% to 70%+ and converting more first-time players into retained users.</li>
+      <li>Collaborated with my co-founders on raycasting and physics-based gameplay systems, dividing feature ownership and reviewing each other's code to ship updates on a consistent release cadence.</li>
+    </ol>
+  </section>
+
+  <section class="section dark" aria-labelledby="onboarding-title">
+    <div class="wrap center reveal">
+      <p class="eyebrow">Onboarding</p>
+      <h2 class="headline" id="onboarding-title">More players finished the tutorial.</h2>
+      <p class="big-inline"><span class="big-num">24%</span><span class="arrow" aria-hidden="true">→</span><span class="big-num" data-count>70%+</span></p>
+      <p class="sub">Tutorial completion, after redesigning onboarding around session drop-off data.</p>
+    </div>
+  </section>
+
+  <a class="next alt" href="vex.html">
+    <p class="eyebrow">Next project</p>
+    <p class="headline">VEX Competition Robot ›</p>
+  </a>
+</main>
+
+<footer class="foot">
+  <div class="wide">
+    <div class="foot-dir">
+      <div>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="quadcopter.html">Autonomous Payload Quadcopter</a></li>
+          <li><a href="px4.html">PX4 SITL Experiments</a></li>
+          <li><a href="lunate.html">Lunate Studios</a></li>
+          <li><a href="vex.html">VEX Competition Robot</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>About</h2>
+        <ul>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="about.html">About and skills</a></li>
+          <li><a href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)<span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:ryan.zhang1@uwaterloo.ca">Email</a></li>
+          <li><a href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-in">
+      <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="24" height="24">© 2026 Ryan Zhang</span>
+      <span class="f2">Built with HTML &amp; CSS</span>
+      <a class="f3" href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>

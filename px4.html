@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PX4 SITL Experiments · Ryan Zhang</title>
+<meta name="description" content="Testing the quadcopter&#x27;s flight software in software-in-the-loop simulation: PX4 built from source, a simulated quad in Gazebo, failsafe tests, and a Python MAVLink script.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ryanzhang-ca.github.io/px4.html">
+<meta property="og:title" content="PX4 SITL Experiments · Ryan Zhang">
+<meta property="og:description" content="Testing the quadcopter&#x27;s flight software in software-in-the-loop simulation: PX4 built from source, a simulated quad in Gazebo, failsafe tests, and a Python MAVLink script.">
+<meta property="og:image" content="https://ryanzhang-ca.github.io/images/px4-sitl-flight.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="images/rz-logo.png">
+<link rel="apple-touch-icon" href="images/rz-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+  // Before the first paint: apply a saved light/dark choice and switch on the
+  // scroll effects. If site.js never runs, everything is shown plainly.
+  (function () {
+    var r = document.documentElement, t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
+    r.classList.add('js');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) r.classList.add('scenes-on');
+    window.addEventListener('load', function () { if (!window.revealReady) { r.classList.remove('js'); r.classList.remove('scenes-on'); } });
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav nav--static">
+  <div class="nav-in wide">
+    <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="22" height="22">Ryan Zhang</a>
+    <nav id="site-menu" aria-label="Primary">
+      <a href="index.html#work" aria-current="page">Work</a>
+      <a href="experience.html">Experience</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a class="pill pill-sm" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+    </nav>
+    <button class="theme-btn" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.7A8.6 8.6 0 0 1 9.3 3.5a8.6 8.6 0 1 0 11.2 11.2z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.8v2.4M12 19.8v2.4M1.8 12h2.4M19.8 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/></svg></button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="localnav">
+  <div class="localnav-in wide">
+    <span class="ln-title">PX4 SITL Experiments</span>
+    <nav aria-label="PX4 SITL Experiments">
+      <a href="#overview">Overview</a>
+      <a href="#setup">Setup</a>
+      <a href="#failsafes">Failsafes</a>
+      <a href="#script">Script</a>
+      <a class="pill pill-sm" href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener">GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a>
+    </nav>
+  </div>
+</div>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap center reveal stagger">
+      <p class="eyebrow">Project 02 · Nov 2026 · Simulation</p>
+      <h1 class="page-title">PX4 SITL Experiments</h1>
+      <p class="intro">Testing the quadcopter's flight software in software-in-the-loop simulation before trusting it on real hardware: PX4 built from source, a simulated quad in Gazebo, and QGroundControl as the ground station.</p>
+      <div class="ctas"><a class="pill" href="https://github.com/ryanzhang-ca/px4-sitl-experiments" target="_blank" rel="noopener">View on GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a></div>
+    </div>
+  </section>
+
+  <section class="scene" id="overview" style="--len: 420">
+    <div class="scene-stage wide">
+      <div class="scene-copy">
+        <div class="beat" data-from="0" data-to="0.3">
+          <h2>Plan it in QGroundControl.</h2>
+          <p>A waypoint mission over a satellite map of campus, with the path flown so far drawn on top.</p>
+        </div>
+        <div class="beat" data-from="0.36" data-to="0.64">
+          <h2>Fly it in Gazebo.</h2>
+          <p>PX4, built from source, flies a simulated quadcopter in software-in-the-loop, so a mistake costs nothing.</p>
+        </div>
+        <div class="beat" data-from="0.7" data-to="1">
+          <h2>Then break it on purpose.</h2>
+          <p>Cut the ground-station link. Kill the GPS. Watch how PX4 decides what to do next.</p>
+          <div class="ctas"><a class="more" href="#failsafes">See the tests</a></div>
+        </div>
+      </div>
+      <div class="scene-media">
+        <canvas data-src="images/px4-sitl-flight.jpg" data-camera='[[0,0.25,0.5,1.25],[0.3,0.25,0.5,1.25],[0.5,0.75,0.5,1.25],[0.66,0.76,0.52,1.9],[0.74,0.76,0.52,1.9],[0.92,0.5,0.5,1],[1,0.5,0.5,1]]' role="img" aria-label="A simulated waypoint mission: QGroundControl on the left shows the planned route over a satellite map of the University of Waterloo campus and the path flown so far; Gazebo on the right shows the simulated quadcopter in flight."></canvas>
+        <img class="scene-fallback" src="images/px4-sitl-flight.jpg" alt="A simulated waypoint mission: QGroundControl on the left shows the planned route over a satellite map of the University of Waterloo campus and the path flown so far; Gazebo on the right shows the simulated quadcopter in flight." width="1600" height="900">
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="setup" aria-labelledby="setup-title">
+    <div class="wrap reveal">
+      <h2 class="headline center" id="setup-title">Setup.</h2>
+      <dl class="spec">
+        <div><dt>OS</dt><dd>Windows 11 with WSL2, Ubuntu 22.04</dd></div>
+        <div><dt>Autopilot</dt><dd>PX4-Autopilot (main branch), built from source</dd></div>
+        <div><dt>Simulator</dt><dd>Gazebo, <code>gz_x500</code> quadcopter model</dd></div>
+        <div><dt>Ground control</dt><dd>QGroundControl 4.4.3 (Linux AppImage, running in WSL)</dd></div>
+        <div><dt>Scripting</dt><dd>Python 3.10, pymavlink</dd></div>
+      </dl>
+<pre><code># Build and launch the simulator
+cd ~/PX4-Autopilot
+make px4_sitl gz_x500
+
+# In a second terminal: ground control station
+./QGroundControl.AppImage
+
+# In a third terminal: MAVLink script
+pip install pymavlink
+python3 px4_takeoff_land.py</code></pre>
+    </div>
+  </section>
+
+  <section class="section" id="failsafes" aria-labelledby="fs-title">
+    <div class="wrap center reveal">
+      <h2 class="headline" id="fs-title">Failsafe tests.</h2>
+      <p class="sub">Each test ran in SITL from the <code>pxh&gt;</code> shell and was watched in the PX4 console and QGroundControl.</p>
+    </div>
+    <div class="wrap">
+      <article class="test reveal" aria-labelledby="test-a">
+        <h3 class="h3" id="test-a">Test A · Ground-station link lost</h3>
+        <dl class="spec">
+          <div><dt>Setup</dt><dd><code>param set NAV_DLL_ACT 2</code> (data link loss action = Return)</dd></div>
+          <div><dt>Action</dt><dd><code>commander takeoff</code>, then closed QGroundControl while hovering</dd></div>
+          <div><dt>Expected</dt><dd>Vehicle detects the lost link and returns to launch</dd></div>
+          <div><dt>Result</dt><dd>Link loss detected → <b>Hold for 5 s</b> (grace period, <code>COM_FAIL_ACT_T</code>) → <b>Return</b> → landed at home → disarmed</dd></div>
+        </dl>
+<pre><code>INFO  [commander] Connection to ground station lost
+WARN  [failsafe] Failsafe activated: entering Hold for 5 seconds
+WARN  [failsafe] Failsafe activated
+INFO  [navigator] Return: start return at 491 m (3 m above destination)
+INFO  [navigator] Return: land at destination
+INFO  [commander] Landing detected
+INFO  [commander] Disarmed by landing</code></pre>
+        <p class="takeaway"><b>Takeaway:</b> PX4 handles link loss in stages: detect, give the operator a short grace period, then run the configured action. The vehicle still had a valid position estimate, so it could fly home.</p>
+      </article>
+
+      <article class="test reveal" aria-labelledby="test-b">
+        <h3 class="h3" id="test-b">Test B · GPS failure in flight</h3>
+        <dl class="spec">
+          <div><dt>Setup</dt><dd><code>param set SYS_FAILURE_EN 1</code> (enable failure injection)</dd></div>
+          <div><dt>Action</dt><dd><code>commander takeoff</code>, then <code>failure gps off</code> while hovering; later <code>failure gps ok</code></dd></div>
+          <div><dt>Expected</dt><dd>Vehicle falls back to a safe behaviour after losing position</dd></div>
+          <div><dt>Result</dt><dd>Position setpoints invalid → <b>blind land</b> (descend in place) → GPS restored mid-descent, landing continued → disarmed</dd></div>
+        </dl>
+<pre><code>WARN  [failure_injection_manager] Injected: gps off, all instances
+WARN  [mc_pos_control] invalid setpoints
+WARN  [mc_pos_control] Failsafe: blind land
+WARN  [failsafe] Failsafe activated
+WARN  [failure_injection_manager] Cleared: gps, all instances
+INFO  [commander] Landing detected
+INFO  [commander] Disarmed by landing</code></pre>
+        <p class="takeaway"><b>Takeaway:</b> Without GPS, PX4 has no horizontal position estimate, so it can't hold position or return home. Its only safe option is to descend in place. Once committed to the landing failsafe, it finished landing even after GPS came back.</p>
+      </article>
+
+      <div class="table-wrap reveal">
+        <table>
+          <caption class="sr-only">Comparison of the two failsafe tests</caption>
+          <thead><tr><th scope="col"></th><th scope="col">Test A: link loss</th><th scope="col">Test B: GPS loss</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Position estimate</th><td>Still valid</td><td>Lost</td></tr>
+            <tr><th scope="row">Failsafe action</th><td>Hold → Return</td><td>Blind land</td></tr>
+            <tr><th scope="row">Outcome</th><td>Landed at home</td><td>Landed in place</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sub center reveal">PX4 picks its failsafe based on what information it still has. Any system that can lose or stop trusting a data source, whether the control link or a sensor, needs a planned fallback for each case.</p>
+    </div>
+  </section>
+
+  <section class="section alt" id="script" aria-labelledby="script-title">
+    <div class="wrap center reveal">
+      <h2 class="headline" id="script-title">A MAVLink control script.</h2>
+      <p class="sub"><code>px4_takeoff_land.py</code> uses pymavlink to connect to PX4 over UDP (port 14540) and fly a simple mission.</p>
+    </div>
+    <div class="wrap prose reveal">
+      <ol class="steps">
+        <li>Wait for a <code>HEARTBEAT</code> to confirm the link</li>
+        <li>Arm (<code>MAV_CMD_COMPONENT_ARM_DISARM</code>), retrying until PX4's preflight checks pass</li>
+        <li>Take off (<code>MAV_CMD_NAV_TAKEOFF</code>) to the default altitude (<code>MIS_TAKEOFF_ALT</code>, 2.5&nbsp;m)</li>
+        <li>Print altitude from <code>GLOBAL_POSITION_INT</code></li>
+        <li>Land (<code>MAV_CMD_NAV_LAND</code>)</li>
+      </ol>
+      <p>Each command is sent as a <code>COMMAND_LONG</code> and the script waits for the matching <code>COMMAND_ACK</code>.</p>
+    </div>
+    <div class="wrap">
+      <h3 class="h3 center reveal" style="margin-top: var(--s8)">Bugs found and fixed.</h3>
+      <ol class="tiles reveal stagger">
+        <li><h3>Takeoff sent without confirming the arm succeeded</h3>The first version sent the arm command, then immediately sent takeoff. PX4 replied <code>MAV_RESULT_TEMPORARILY_REJECTED</code> to the arm because preflight checks hadn't passed yet, but accepted the takeoff command. The vehicle switched into Takeoff mode while disarmed, so nothing happened. <b>Fix:</b> check the arm ACK, retry up to 20 times, print PX4's <code>STATUSTEXT</code> message explaining each rejection, and abort if arming never succeeds.</li>
+        <li><h3>Stale telemetry</h3>The altitude printout showed 0&nbsp;m during takeoff and about 2.3&nbsp;m during landing, which is backwards. The script read one <code>GLOBAL_POSITION_INT</code> message and then slept for 0.5&nbsp;s, but PX4 streams that message many times per second, so each printout showed older and older data. <b>Fix:</b> read every incoming message without sleeping, and only print twice per second, so the printed value is always the newest.</li>
+      </ol>
+      <h3 class="h3 center reveal" style="margin-top: var(--s8)">Result after the fixes.</h3>
+      <div class="prose reveal">
+<pre><code>Heartbeat from system 1, component 0
+Arming...
+  ACK for command 400: MAV_RESULT_ACCEPTED
+Taking off...
+  ACK for command 22: MAV_RESULT_ACCEPTED
+  relative alt: 0.00 m → 0.35 m → 1.13 m → 1.76 m → 2.12 m → 2.28 m
+Landing...
+  ACK for command 21: MAV_RESULT_ACCEPTED
+  relative alt: 2.31 m → 1.86 m → 1.22 m → 0.50 m → 0.00 m</code></pre>
+        <p>Altitude now tracks the vehicle in real time: a smooth climb toward 2.5&nbsp;m, then a smooth descent to the ground.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="nextsteps-title">
+    <div class="wrap center reveal">
+      <h2 class="headline" id="nextsteps-title">What's next.</h2>
+    </div>
+    <ol class="tiles tiles-3 wrap reveal stagger">
+      <li><h3>MAVLink 2 message signing</h3>Enable signing in SITL, then confirm that unsigned or wrongly-signed commands are rejected and that replayed messages fail the timestamp check.</li>
+      <li><h3>Authentication failure handling</h3>Define how the vehicle should respond to repeated invalid commands, using the same staged approach as PX4's existing failsafes.</li>
+      <li><h3>Hardware</h3>Connect the Raspberry Pi companion computer to the Pixhawk over UART (TELEM2) and run the same script on the real vehicle.</li>
+    </ol>
+    <div class="wrap center"><ul class="chips reveal stagger" aria-label="Tools"><li>PX4</li><li>MAVLink</li><li>Python</li><li>Gazebo</li><li>SITL</li><li>Linux (WSL2)</li></ul></div>
+  </section>
+
+  <a class="next alt" href="lunate.html">
+    <p class="eyebrow">Next project</p>
+    <p class="headline">Lunate Studios ›</p>
+  </a>
+</main>
+
+<footer class="foot">
+  <div class="wide">
+    <div class="foot-dir">
+      <div>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="quadcopter.html">Autonomous Payload Quadcopter</a></li>
+          <li><a href="px4.html">PX4 SITL Experiments</a></li>
+          <li><a href="lunate.html">Lunate Studios</a></li>
+          <li><a href="vex.html">VEX Competition Robot</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>About</h2>
+        <ul>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="about.html">About and skills</a></li>
+          <li><a href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)<span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:ryan.zhang1@uwaterloo.ca">Email</a></li>
+          <li><a href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-in">
+      <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="24" height="24">© 2026 Ryan Zhang</span>
+      <span class="f2">Built with HTML &amp; CSS</span>
+      <a class="f3" href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>

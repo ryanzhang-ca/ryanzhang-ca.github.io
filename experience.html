@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Experience · Ryan Zhang</title>
+<meta name="description" content="Ryan Zhang&#x27;s experience: Lunate Studios, Markham Cycles, robotics team leadership and DECA.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ryanzhang-ca.github.io/experience.html">
+<meta property="og:title" content="Experience · Ryan Zhang">
+<meta property="og:description" content="Ryan Zhang&#x27;s experience: Lunate Studios, Markham Cycles, robotics team leadership and DECA.">
+<meta property="og:image" content="https://ryanzhang-ca.github.io/images/rz-logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="images/rz-logo.png">
+<link rel="apple-touch-icon" href="images/rz-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+  // Before the first paint: apply a saved light/dark choice and switch on the
+  // scroll effects. If site.js never runs, everything is shown plainly.
+  (function () {
+    var r = document.documentElement, t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
+    r.classList.add('js');
+    if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) r.classList.add('scenes-on');
+    window.addEventListener('load', function () { if (!window.revealReady) { r.classList.remove('js'); r.classList.remove('scenes-on'); } });
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav-in wide">
+    <a class="who" href="index.html"><img src="images/rz-logo.png" alt="" width="22" height="22">Ryan Zhang</a>
+    <nav id="site-menu" aria-label="Primary">
+      <a href="index.html#work">Work</a>
+      <a href="experience.html" aria-current="page">Experience</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a class="pill pill-sm" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+    </nav>
+    <button class="theme-btn" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.7A8.6 8.6 0 0 1 9.3 3.5a8.6 8.6 0 1 0 11.2 11.2z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 1.8v2.4M12 19.8v2.4M1.8 12h2.4M19.8 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/></svg></button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap center reveal stagger">
+      <h1 class="page-title">Experience.</h1>
+      <p class="intro">2022 – present</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <ol class="exp-list wrap">
+      <li class="exp reveal">
+        <div class="role">
+          <p class="when">Jul 2026 – Present</p>
+          <h2>Co-Founder &amp; Lead Developer</h2>
+          <p class="org">Lunate Studios · Self-employed</p>
+          <a class="more" href="lunate.html">See the project</a>
+        </div>
+        <ul class="detail">
+          <li>Co-founded a studio and led development across a portfolio of 4 published Roblox games, reaching 8M+ visits and 10K+ peak concurrent players while generating over $78k in developer revenue.</li>
+          <li>Architected persistent backend systems in Luau using DataStoreService and OrderedDataStores, delivering player progression, global leaderboards, inventories, and in-game economies.</li>
+          <li>Used session drop-off data to redesign onboarding, raising tutorial completion from 24% to over 70%.</li>
+        </ul>
+      </li>
+      <li class="exp reveal">
+        <div class="role">
+          <p class="when">Jun 2024 – Sep 2026</p>
+          <h2>Bicycle Technician &amp; Youth Ride Leader</h2>
+          <p class="org">Markham Cycles · Markham, ON</p>
+          <p class="wins"><b data-count>1,100+</b> bikes refurbished · <b data-count>800+</b> bikes distributed</p>
+        </div>
+        <ul class="detail">
+          <li>Diagnosed and repaired mechanical faults across braking, drivetrain, wheel, and tire systems on donated bicycles, using structured inspection to isolate root causes before committing parts.</li>
+          <li>Replaced and adjusted worn components to restore bikes to safe operating condition, contributing to a team effort that refurbished 1,100+ bicycles and distributed 800+ to over 1,000 community members.</li>
+          <li>Led youth group rides and onboarded new volunteers on repair workflows and safety practices, sustaining shop throughput through high-volume donation periods.</li>
+        </ul>
+      </li>
+      <li class="exp reveal" id="robotics">
+        <div class="role">
+          <p class="when">Sep 2022 – Jun 2026</p>
+          <h2>Robotics Team Leader</h2>
+          <p class="org">Pickering High School · Ajax, ON</p>
+          <p class="wins"><b>Silver</b> regional medal · <b>VEX</b> competition robot</p>
+          <figure>
+            <img src="images/vex-robot.jpg" alt="Top-down photo of the VEX competition robot: an aluminum chassis with a tread conveyor down the middle, red and green gears on the front axle, and a row of rollers across the front." width="1096" height="1220" loading="lazy">
+            <figcaption>The VEX competition robot, from above.</figcaption>
+          </figure>
+          <a class="more" href="vex.html">See the project</a>
+        </div>
+        <ul class="detail">
+          <li>Directed the mechanical design, fabrication, and wiring of a VEX competition robot, integrating an IMU, distance sensor, and a pneumatics subsystem through iterative prototyping that improved reliability season over season.</li>
+          <li>Programmed and tuned autonomous and driver-controlled routines using IMU and distance-sensor feedback for closed-loop correction, coordinating with teammates to resolve faults inside tight competition deadlines.</li>
+          <li>Coached new members on tool usage, wiring, and safety procedures, building a team capable of independent troubleshooting and carrying it to a regional silver medal finish.</li>
+        </ul>
+      </li>
+      <li class="exp reveal">
+        <div class="role">
+          <p class="when">Sep 2023 – Jun 2026</p>
+          <h2>DECA Competitor &amp; Team Trainer</h2>
+          <p class="org">Pickering High School · Ajax, ON</p>
+          <p class="wins"><b>3×</b> ICDC finalist · <b>4th</b> in Atlanta</p>
+        </div>
+        <ul class="detail">
+          <li>Placed 4th in Atlanta, 6th in Anaheim, and 10th in Orlando as a three-time ICDC Finalist, qualifying for the international conference in three consecutive years.</li>
+          <li>Competed in DECA’s Virtual Business Challenge – Personal Finance, applying financial modelling and business analysis to simulated case studies under timed decision cycles.</li>
+          <li>Trained newer members in case analysis, presentation delivery, and competition strategy, expanding the chapter’s pool of qualifying competitors.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section class="section alt" id="contact" aria-labelledby="contact-title">
+    <div class="wrap center reveal">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Open to Winter 2027 co-op roles</p>
+      <h2 class="display" id="contact-title">Get in touch.</h2>
+      <p class="sub">Looking for a mechatronics co-op for Winter 2027. Happy to talk about the quadcopter build, hardware/software integration, or anything else.</p>
+      <a class="email" href="mailto:ryan.zhang1@uwaterloo.ca">ryan.zhang1@uwaterloo.ca</a>
+      <div class="ctas">
+        <a class="pill" href="mailto:ryan.zhang1@uwaterloo.ca">Email me</a>
+        <button class="pill pill-secondary" type="button" data-copy="ryan.zhang1@uwaterloo.ca">Copy email</button>
+      </div>
+      <p class="links-row">
+        <a class="more ext" href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="more ext" href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="more ext" href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé ↗<span class="sr-only"> (PDF, opens in a new tab)</span></a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wide">
+    <div class="foot-dir">
+      <div>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="quadcopter.html">Autonomous Payload Quadcopter</a></li>
+          <li><a href="px4.html">PX4 SITL Experiments</a></li>
+          <li><a href="lunate.html">Lunate Studios</a></li>
+          <li><a href="vex.html">VEX Competition Robot</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>About</h2>
+        <ul>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="about.html">About and skills</a></li>
+          <li><a href="Ryan_Zhang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)<span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:ryan.zhang1@uwaterloo.ca">Email</a></li>
+          <li><a href="https://github.com/ryanzhang-ca" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a href="https://linkedin.com/in/ryanzhangca" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-in">
+      <span class="f1"><img class="mark" src="images/rz-logo.png" alt="" width="24" height="24">© 2026 Ryan Zhang</span>
+      <span class="f2">Built with HTML &amp; CSS</span>
+      <a class="f3" href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>
