@@ -144,13 +144,17 @@
 
   // ---------- Scroll scenes ----------
   // Each .scene is a tall section whose stage is pinned to the screen. Its
-  // progress (0 at the top, 1 when the stage is about to let go) drives:
-  //  - a canvas: either a camera moving across one photo (data-camera:
-  //    [progress, centreX, centreY, zoom] keyframes), or a frame sequence
-  //    (data-frames="images/seq/name-{i}.jpg" data-frame-count="120"), the
-  //    flip-book technique Apple uses for product animations;
-  //  - text beats (data-from / data-to) that fade and slide with the scroll;
-  //  - numbers inside a beat (data-scrub) that count as you scroll.
+  // progress p (0 at the top, 1 when the stage is about to let go) drives:
+  //  - .beat: text that fades and slides in at data-from and out at data-to
+  //    (data-zoom also scales it through the screen);
+  //  - .chapter: a text layer plus a picture layer for one part of the scene.
+  //    Pictures cross-fade into each other while the text slides;
+  //  - canvases: a camera moving across one photo (data-camera keyframes of
+  //    [progress, centreX, centreY, zoom], progress local to its chapter), or
+  //    a flip-book frame sequence (data-frames="images/seq/name-{i}.jpg",
+  //    data-frame-count), the technique Apple uses for product animations;
+  //  - [data-words] / [data-rows]: words or list rows that light up in turn;
+  //  - [data-scrub]: numbers that count as you scroll.
   var scenes = [];
   var sceneEls = document.querySelectorAll('.scene');
   if (sceneEls.length && !reduceMotion && window.requestAnimationFrame) {
@@ -160,47 +164,85 @@
 
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function range(el, fallbackFrom, fallbackTo) {
+    var f = el.getAttribute('data-from'), t = el.getAttribute('data-to');
+    return [f === null ? fallbackFrom : parseFloat(f), t === null ? fallbackTo : parseFloat(t)];
+  }
+  function scrubNums(el) {
+    var out = [];
+    Array.prototype.forEach.call(el.querySelectorAll('[data-scrub]'), function (numEl) {
+      var c = splitForCounting(numEl);
+      if (c) out.push(c);
+    });
+    return out;
+  }
+  // Wrap each word of a plain-text element in a span so it can light up.
+  function splitWords(el) {
+    var words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    return words.map(function (w, i) {
+      var span = document.createElement('span');
+      span.className = 'w';
+      span.textContent = w;
+      el.appendChild(span);
+      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+      return span;
+    });
+  }
+
+  function makeLayer(s, canvas, from, to) {
+    var L = { canvas: canvas, ctx: canvas.getContext('2d'), from: from, to: to, lastKey: '',
+              camera: JSON.parse(canvas.getAttribute('data-camera') || '[[0,0.5,0.5,1],[1,0.5,0.5,1]]') };
+    var redraw = function () { s.dirty = true; requestTick(); };
+    var frames = canvas.getAttribute('data-frames');
+    if (frames) {
+      // Flip-book: preload every frame, draw the one that matches the scroll.
+      var count = parseInt(canvas.getAttribute('data-frame-count'), 10) || 1;
+      var pad = parseInt(canvas.getAttribute('data-frame-pad'), 10) || 4;
+      L.frames = [];
+      for (var i = 1; i <= count; i++) {
+        var img = new Image();
+        img.decoding = 'async';
+        img.onload = redraw;
+        img.src = frames.replace('{i}', String(i).padStart(pad, '0'));
+        L.frames.push(img);
+      }
+    } else {
+      L.img = new Image();
+      L.img.decoding = 'async';
+      L.img.onload = redraw;
+      L.img.src = canvas.getAttribute('data-src');
+    }
+    return L;
+  }
 
   function makeScene(el) {
-    var s = { el: el, dirty: true, lastKey: '', canvas: el.querySelector('canvas'), beats: [] };
+    var s = { el: el, dirty: true, beats: [], chapters: [], layers: [], lights: [] };
     Array.prototype.forEach.call(el.querySelectorAll('.beat'), function (b) {
-      var beat = { el: b, from: parseFloat(b.getAttribute('data-from')) || 0, to: parseFloat(b.getAttribute('data-to') || '1'), nums: [] };
-      Array.prototype.forEach.call(b.querySelectorAll('[data-scrub]'), function (numEl) {
-        var c = splitForCounting(numEl);
-        if (c) beat.nums.push(c);
-      });
-      s.beats.push(beat);
+      var r = range(b, 0, 1);
+      s.beats.push({ el: b, from: r[0], to: r[1], zoom: b.hasAttribute('data-zoom'), nums: scrubNums(b) });
     });
-    if (s.canvas) {
-      s.ctx = s.canvas.getContext('2d');
-      s.camera = JSON.parse(s.canvas.getAttribute('data-camera') || '[[0,0.5,0.5,1],[1,0.5,0.5,1]]');
-      var frames = s.canvas.getAttribute('data-frames');
-      if (frames) {
-        // Flip-book: preload every frame, draw the one that matches the scroll.
-        var count = parseInt(s.canvas.getAttribute('data-frame-count'), 10) || 1;
-        var pad = parseInt(s.canvas.getAttribute('data-frame-pad'), 10) || 4;
-        s.frames = [];
-        for (var i = 1; i <= count; i++) {
-          var img = new Image();
-          img.decoding = 'async';
-          img.src = frames.replace('{i}', String(i).padStart(pad, '0'));
-          img.onload = function () { s.dirty = true; requestTick(); };
-          s.frames.push(img);
-        }
-      } else {
-        s.img = new Image();
-        s.img.decoding = 'async';
-        s.img.onload = function () { s.dirty = true; requestTick(); };
-        s.img.src = s.canvas.getAttribute('data-src');
-      }
-    }
+    Array.prototype.forEach.call(el.querySelectorAll('.chapter'), function (c) {
+      var r = range(c, 0, 1);
+      s.chapters.push({ el: c, from: r[0], to: r[1], copy: c.querySelector('.chapter-copy'), media: c.querySelector('.chapter-media'), nums: scrubNums(c) });
+    });
+    Array.prototype.forEach.call(el.querySelectorAll('canvas'), function (cv) {
+      var ch = cv.closest('.chapter');
+      var r = ch ? range(ch, 0, 1) : [0, 1];
+      s.layers.push(makeLayer(s, cv, r[0], r[1]));
+    });
+    Array.prototype.forEach.call(el.querySelectorAll('[data-words], [data-rows]'), function (h) {
+      var r = range(h, 0, 1);
+      var parts = h.hasAttribute('data-words') ? splitWords(h) : Array.prototype.slice.call(h.children);
+      s.lights.push({ from: r[0], to: r[1], parts: parts });
+    });
     return s;
   }
 
-  function sizeCanvas(s) {
-    var c = s.canvas, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function sizeCanvas(L) {
+    var c = L.canvas, dpr = Math.min(window.devicePixelRatio || 1, 2);
     var w = Math.round(c.clientWidth * dpr), h = Math.round(c.clientHeight * dpr);
-    if (w && h && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; s.dirty = true; }
+    if (w && h && (c.width !== w || c.height !== h)) { c.width = w; c.height = h; L.lastKey = ''; }
   }
 
   function cameraAt(cam, p) {
@@ -227,6 +269,23 @@
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
   }
 
+  // How far something has come in (a) and how far it has gone out (z), 0..1.
+  function inOut(p, from, to, f) {
+    var a = from <= 0 ? 1 : easeInOut(clamp01((p - from) / f));
+    var z = to >= 1 ? 1 : easeInOut(clamp01((to - p) / f));
+    return [a, z];
+  }
+  function setLayer(el, o, transform) {
+    el.style.opacity = o.toFixed(3);
+    if (transform !== undefined) el.style.transform = transform;
+    el.style.visibility = o > 0.01 ? 'visible' : 'hidden';
+    el.style.pointerEvents = o > 0.6 ? 'auto' : 'none';
+  }
+  function countWith(nums, q) {
+    var eased = 1 - Math.pow(1 - clamp01(q), 3);
+    nums.forEach(function (c) { c.shown.textContent = c.n.format(Math.round(c.n.target * eased)); });
+  }
+
   function renderScene(s) {
     var rect = s.el.getBoundingClientRect();
     var vh = window.innerHeight;
@@ -234,47 +293,65 @@
     var travel = rect.height - vh;
     var p = travel > 0 ? clamp01(-rect.top / travel) : 0;
 
-    // Text beats: fade and slide in at "from", out at "to".
-    var F = 0.07;
     s.beats.forEach(function (b) {
-      var a = b.from <= 0 ? 1 : clamp01((p - b.from) / F);
-      var z = b.to >= 1 ? 1 : clamp01((b.to - p) / F);
-      a = easeInOut(a); z = easeInOut(z);
-      var o = Math.min(a, z);
+      var io = inOut(p, b.from, b.to, 0.07), a = io[0], z = io[1];
       var y = (1 - a) * 32 - (1 - z) * 32;
-      b.el.style.opacity = o.toFixed(3);
-      b.el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
-      b.el.style.visibility = o > 0.01 ? 'visible' : 'hidden';
-      b.el.style.pointerEvents = o > 0.6 ? 'auto' : 'none';
-      if (b.nums.length) {
-        var q = clamp01((p - b.from) / ((b.to - b.from) * 0.55));
-        var eased = 1 - Math.pow(1 - q, 3);
-        b.nums.forEach(function (c) { c.shown.textContent = c.n.format(Math.round(c.n.target * eased)); });
-      }
+      var sc = b.zoom ? 1 - (1 - a) * 0.06 + (1 - z) * 0.08 : 1;
+      setLayer(b.el, Math.min(a, z), 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')');
+      if (b.nums.length) countWith(b.nums, (p - b.from) / ((b.to - b.from) * 0.55));
     });
 
-    // Canvas: redraw only when the picture would change.
-    if (!s.canvas) return;
-    sizeCanvas(s);
-    var cw = s.canvas.width, ch = s.canvas.height;
-    if (s.frames) {
-      var idx = Math.min(s.frames.length - 1, Math.floor(p * s.frames.length));
-      var key = 'f' + idx + ':' + cw + 'x' + ch;
-      var frame = s.frames[idx];
-      if ((key !== s.lastKey || s.dirty) && frame.complete && frame.naturalWidth) {
-        s.ctx.clearRect(0, 0, cw, ch);
-        drawCover(s.ctx, frame, cw, ch, 0.5, 0.5, 1);
-        s.lastKey = key; s.dirty = false;
+    s.chapters.forEach(function (c) {
+      // Text slides; the picture behind it cross-fades with its neighbours.
+      var t = inOut(p, c.from, c.to, 0.05);
+      var y = (1 - t[0]) * 40 - (1 - t[1]) * 40;
+      var shown = false;
+      if (c.copy) {
+        setLayer(c.copy, Math.min(t[0], t[1]), 'translate3d(0,' + y.toFixed(1) + 'px,0)');
+        shown = shown || Math.min(t[0], t[1]) > 0.01;
       }
-    } else if (s.img && s.img.complete && s.img.naturalWidth) {
-      var c = cameraAt(s.camera, p);
-      var k = c[1].toFixed(4) + ',' + c[2].toFixed(4) + ',' + c[3].toFixed(4) + ':' + cw + 'x' + ch;
-      if (k !== s.lastKey || s.dirty) {
-        s.ctx.clearRect(0, 0, cw, ch);
-        drawCover(s.ctx, s.img, cw, ch, c[1], c[2], c[3]);
-        s.lastKey = k; s.dirty = false;
+      if (c.media) {
+        var m = inOut(p, c.from - 0.02, c.to + 0.02, 0.04);
+        setLayer(c.media, Math.min(m[0], m[1]));
+        shown = shown || Math.min(m[0], m[1]) > 0.01;
       }
-    }
+      c.el.style.visibility = shown ? 'visible' : 'hidden';
+      if (c.nums.length) countWith(c.nums, (p - c.from) / ((c.to - c.from) * 0.5));
+    });
+
+    s.lights.forEach(function (h) {
+      var k = clamp01((p - h.from) / (h.to - h.from || 1)) * h.parts.length;
+      h.parts.forEach(function (el, i) {
+        el.style.opacity = (0.22 + 0.78 * clamp01(k - i)).toFixed(3);
+      });
+    });
+
+    // Canvases: redraw only when visible and when the picture would change.
+    s.layers.forEach(function (L) {
+      var holder = L.canvas.closest('.chapter-media');
+      if (holder && holder.style.visibility === 'hidden') return;
+      sizeCanvas(L);
+      var cw = L.canvas.width, ch = L.canvas.height;
+      var q = clamp01((p - L.from) / (L.to - L.from || 1));
+      if (L.frames) {
+        var idx = Math.min(L.frames.length - 1, Math.floor(q * L.frames.length));
+        var frame = L.frames[idx], key = 'f' + idx + ':' + cw + 'x' + ch;
+        if ((key !== L.lastKey || s.dirty) && frame.complete && frame.naturalWidth) {
+          L.ctx.clearRect(0, 0, cw, ch);
+          drawCover(L.ctx, frame, cw, ch, 0.5, 0.5, 1);
+          L.lastKey = key;
+        }
+      } else if (L.img && L.img.complete && L.img.naturalWidth) {
+        var c = cameraAt(L.camera, q);
+        var k = c[1].toFixed(4) + ',' + c[2].toFixed(4) + ',' + c[3].toFixed(4) + ':' + cw + 'x' + ch;
+        if (k !== L.lastKey || s.dirty) {
+          L.ctx.clearRect(0, 0, cw, ch);
+          drawCover(L.ctx, L.img, cw, ch, c[1], c[2], c[3]);
+          L.lastKey = k;
+        }
+      }
+    });
+    s.dirty = false;
   }
 
   var ticking = false;
