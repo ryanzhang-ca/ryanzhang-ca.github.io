@@ -18,7 +18,7 @@
     var next = currentTheme() === 'dark' ? 'light' : 'dark';
     themeBtn.setAttribute('aria-label', 'Switch to ' + next + ' mode');
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', currentTheme() === 'dark' ? '#000000' : '#ffffff');
+    if (meta) meta.setAttribute('content', currentTheme() === 'dark' ? '#060608' : '#fbfbfd');
   }
   if (themeBtn) {
     labelThemeBtn();
@@ -435,6 +435,75 @@
     }
     if (location.hash !== (hash || '')) history.pushState(null, '', hash || location.pathname + location.search);
     jumpTo(y, target);
+  });
+
+  // ---------- Photo carousels ----------
+  // The track is the browser's own scroll-snap strip, so swipes and trackpad
+  // flicks keep their momentum. This only keeps the arrows, the dots and the
+  // dimmed side cards in step with wherever the strip comes to rest.
+  Array.prototype.forEach.call(document.querySelectorAll('.carousel'), function (c) {
+    var track = c.querySelector('.carousel-track');
+    var slides = Array.prototype.slice.call(track.querySelectorAll('.slide'));
+    var dots = Array.prototype.slice.call(c.querySelectorAll('.dotnav button'));
+    var prev = c.querySelector('.paddle[data-dir="-1"]');
+    var next = c.querySelector('.paddle[data-dir="1"]');
+    var status = c.querySelector('[aria-live]');
+    var current = -1, aim = null, raf = 0;
+    if (slides.length < 2) return;
+
+    // How far slide i's centre sits from the middle of the strip.
+    function offsetOf(i) {
+      var t = track.getBoundingClientRect(), r = slides[i].getBoundingClientRect();
+      return r.left + r.width / 2 - (t.left + track.clientWidth / 2);
+    }
+    function nearest() {
+      var best = 0, bestD = Infinity;
+      for (var i = 0; i < slides.length; i++) {
+        var d = Math.abs(offsetOf(i));
+        if (d < bestD) { bestD = d; best = i; }
+      }
+      return best;
+    }
+    function setDisabled(btn, off, other) {
+      if (off && document.activeElement === btn) other.focus();  // keep focus on a usable arrow
+      btn.disabled = off;
+    }
+    function update() {
+      raf = 0;
+      var i = nearest();
+      if (aim === i) aim = null;
+      if (i === current) return;
+      current = i;
+      slides.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+      dots.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      setDisabled(prev, i === 0, next);
+      setDisabled(next, i === slides.length - 1, prev);
+      if (status) status.textContent = 'Photo ' + (i + 1) + ' of ' + slides.length;
+    }
+    function go(i) {
+      aim = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollBy({ left: offsetOf(aim), behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+    // Quick repeated taps step from where the strip is heading, not where it is.
+    function step(dir) { go((aim !== null ? aim : current) + dir); }
+
+    prev.addEventListener('click', function () { step(-1); });
+    next.addEventListener('click', function () { step(1); });
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k); }); });
+    slides.forEach(function (s, k) { s.addEventListener('click', function () { if (k !== current) go(k); }); });
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1); }
+    });
+    // A swipe or flick takes over from any arrow tap still in flight.
+    ['pointerdown', 'wheel', 'touchstart'].forEach(function (type) {
+      track.addEventListener(type, function () { aim = null; }, { passive: true });
+    });
+    track.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    track.addEventListener('scrollend', update);
+    window.addEventListener('resize', function () { current = -1; update(); });
+
+    c.classList.add('is-ready');
+    update();
   });
 
   window.revealReady = true;

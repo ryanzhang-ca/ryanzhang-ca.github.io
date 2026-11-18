@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Autonomous Payload Quadcopter · Ryan Zhang</title>
 <meta name="description" content="A self-built F450-frame quadcopter designed to carry and release a liquid payload with no operator input, splitting flight control and vision processing across two computers.">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#fbfbfd">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ryanzhang-ca.github.io/quadcopter.html">
 <meta property="og:title" content="Autonomous Payload Quadcopter · Ryan Zhang">
@@ -120,15 +120,23 @@
       <h2 class="headline" id="photos-title">Build photos.</h2>
       <p class="sub">2 photos</p>
     </div>
-    <div class="photos wide reveal">
-      <figure>
-        <img src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440" loading="lazy">
-        <figcaption>Fig. 1 · The assembled quadcopter: F450 frame, flight controller and GPS mast. Propellers removed for the photo.</figcaption>
-      </figure>
-      <figure>
-        <img src="images/quadcopter-esc-soldering.jpg" alt="Soldering ESC connections onto the quadcopter frame" width="640" height="843" loading="lazy">
-        <figcaption>Fig. 2 · Soldering ESC connections onto the quadcopter frame.</figcaption>
-      </figure>
+    <div class="carousel reveal" role="region" aria-roledescription="carousel" aria-label="Build photos">
+      <div class="carousel-track" tabindex="0">
+        <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 2">
+          <div class="slide-card"><img src="images/quadcopter-assembled.jpg" alt="The assembled quadcopter with its propellers removed: an F450 frame with red and white arms, four brushless motors, the flight controller and receiver on top, and a GPS module raised on a mast." width="1500" height="1440" loading="lazy" draggable="false"></div>
+          <figcaption>Fig. 1 · The assembled quadcopter: F450 frame, flight controller and GPS mast. Propellers removed for the photo.</figcaption>
+        </figure>
+        <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2">
+          <div class="slide-card"><img src="images/quadcopter-esc-soldering.jpg" alt="Soldering ESC connections onto the quadcopter frame" width="640" height="843" loading="lazy" draggable="false"></div>
+          <figcaption>Fig. 2 · Soldering ESC connections onto the quadcopter frame.</figcaption>
+        </figure>
+      </div>
+      <div class="carousel-controls">
+        <button class="paddle" type="button" data-dir="-1" aria-label="Previous photo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+        <div class="dotnav" role="group" aria-label="Choose a photo"><button type="button" aria-label="Show photo 1" aria-current="true"></button><button type="button" aria-label="Show photo 2"></button></div>
+        <button class="paddle" type="button" data-dir="1" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></button>
+        <p class="sr-only" aria-live="polite">Photo 1 of 2</p>
+      </div>
     </div>
   </section>
 
