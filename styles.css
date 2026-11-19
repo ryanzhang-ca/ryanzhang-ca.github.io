@@ -780,6 +780,10 @@ tbody th { font-weight: 600; }
 .detail li { position: relative; padding-left: 18px; }
 .detail li + li { margin-top: var(--s3); }
 .detail li::before { content: ""; position: absolute; left: 2px; top: 0.66em; width: 5px; height: 5px; border-radius: 50%; background: var(--text-2); }
+/* The clip again, smaller, filling the space under an entry's bullets. */
+.clip-inline { width: auto; margin: var(--s5) 0 0; }
+.clip-inline .clip-frame { border-radius: var(--radius-m); box-shadow: none; }
+.clip-inline figcaption { text-align: left; }
 
 /* ---------- About ---------- */
 
