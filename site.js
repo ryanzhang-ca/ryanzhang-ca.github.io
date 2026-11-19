@@ -217,14 +217,20 @@
   }
 
   function makeScene(el) {
-    var s = { el: el, dirty: true, beats: [], chapters: [], layers: [], lights: [] };
+    var s = { el: el, dirty: true, beats: [], chapters: [], layers: [], lights: [], onBeat: -1, onChapter: -1 };
     Array.prototype.forEach.call(el.querySelectorAll('.beat'), function (b) {
       var r = range(b, 0, 1);
       s.beats.push({ el: b, from: r[0], to: r[1], zoom: b.hasAttribute('data-zoom'), nums: scrubNums(b) });
     });
     Array.prototype.forEach.call(el.querySelectorAll('.chapter'), function (c) {
       var r = range(c, 0, 1);
-      s.chapters.push({ el: c, from: r[0], to: r[1], copy: c.querySelector('.chapter-copy'), media: c.querySelector('.chapter-media'), nums: scrubNums(c) });
+      s.chapters.push({ el: c, from: r[0], to: r[1], nums: scrubNums(c) });
+    });
+    // Each part takes over halfway through the gap after the one before it,
+    // so there is always exactly one on screen.
+    [s.beats, s.chapters].forEach(function (list) {
+      list.sort(function (a, b) { return a.from - b.from; });
+      list.forEach(function (x, i) { x.at = i ? (list[i - 1].to + x.from) / 2 : -Infinity; });
     });
     Array.prototype.forEach.call(el.querySelectorAll('canvas'), function (cv) {
       var ch = cv.closest('.chapter');
@@ -269,17 +275,19 @@
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
   }
 
-  // How far something has come in (a) and how far it has gone out (z), 0..1.
-  function inOut(p, from, to, f) {
-    var a = from <= 0 ? 1 : easeInOut(clamp01((p - from) / f));
-    var z = to >= 1 ? 1 : easeInOut(clamp01((to - p) / f));
-    return [a, z];
+  // Which part of a list is on at progress p. The CSS animates the change:
+  // the old part slides out the way you are scrolling while the new one
+  // slides in behind it, so the screen is never left empty.
+  function current(list, p) {
+    var on = 0;
+    for (var i = 1; i < list.length; i++) if (p >= list[i].at) on = i;
+    return on;
   }
-  function setLayer(el, o, transform) {
-    el.style.opacity = o.toFixed(3);
-    if (transform !== undefined) el.style.transform = transform;
-    el.style.visibility = o > 0.01 ? 'visible' : 'hidden';
-    el.style.pointerEvents = o > 0.6 ? 'auto' : 'none';
+  function mark(list, on) {
+    list.forEach(function (x, i) {
+      x.el.classList.toggle('is-on', i === on);
+      x.el.classList.toggle('is-past', i < on);
+    });
   }
   function countWith(nums, q) {
     var eased = 1 - Math.pow(1 - clamp01(q), 3);
@@ -293,29 +301,17 @@
     var travel = rect.height - vh;
     var p = travel > 0 ? clamp01(-rect.top / travel) : 0;
 
+    var b0 = current(s.beats, p);
+    if (b0 !== s.onBeat) { s.onBeat = b0; mark(s.beats, b0); }
     s.beats.forEach(function (b) {
-      var io = inOut(p, b.from, b.to, 0.07), a = io[0], z = io[1];
-      var y = (1 - a) * 32 - (1 - z) * 32;
-      var sc = b.zoom ? 1 - (1 - a) * 0.06 + (1 - z) * 0.08 : 1;
-      setLayer(b.el, Math.min(a, z), 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')');
+      // A zoom beat grows a little as you scroll through it.
+      if (b.zoom) b.el.style.scale = (1 + 0.06 * clamp01((p - b.from) / (b.to - b.from || 1))).toFixed(4);
       if (b.nums.length) countWith(b.nums, (p - b.from) / ((b.to - b.from) * 0.55));
     });
 
+    var c0 = current(s.chapters, p);
+    if (c0 !== s.onChapter) { s.onChapter = c0; mark(s.chapters, c0); }
     s.chapters.forEach(function (c) {
-      // Text slides; the picture behind it cross-fades with its neighbours.
-      var t = inOut(p, c.from, c.to, 0.05);
-      var y = (1 - t[0]) * 40 - (1 - t[1]) * 40;
-      var shown = false;
-      if (c.copy) {
-        setLayer(c.copy, Math.min(t[0], t[1]), 'translate3d(0,' + y.toFixed(1) + 'px,0)');
-        shown = shown || Math.min(t[0], t[1]) > 0.01;
-      }
-      if (c.media) {
-        var m = inOut(p, c.from - 0.02, c.to + 0.02, 0.04);
-        setLayer(c.media, Math.min(m[0], m[1]));
-        shown = shown || Math.min(m[0], m[1]) > 0.01;
-      }
-      c.el.style.visibility = shown ? 'visible' : 'hidden';
       if (c.nums.length) countWith(c.nums, (p - c.from) / ((c.to - c.from) * 0.5));
     });
 
@@ -326,10 +322,9 @@
       });
     });
 
-    // Canvases: redraw only when visible and when the picture would change.
+    // Canvases: redraw only when the picture would change. Every picture stays
+    // drawn, so one is ready the moment its chapter fades in.
     s.layers.forEach(function (L) {
-      var holder = L.canvas.closest('.chapter-media');
-      if (holder && holder.style.visibility === 'hidden') return;
       sizeCanvas(L);
       var cw = L.canvas.width, ch = L.canvas.height;
       var q = clamp01((p - L.from) / (L.to - L.from || 1));
@@ -367,10 +362,11 @@
   }
 
   // ---------- Jumps within a page ----------
-  // Back to top, the project name in a project's bar, section links. A short
-  // hop scrolls smoothly. A long one would scrub every pinned scene backwards
-  // on the way, so the page fades out, moves, and fades back in instead.
-  var fade = null;
+  // Back to top, the project name in a project's bar, section links. The page
+  // really scrolls there, eased in and out, and takes longer the further it
+  // goes, but never more than 1.8 seconds. Any wheel, touch,
+  // key or click hands control straight back to you.
+  var glide = null;
   function samePage(a) {
     var strip = function (path) { return path.replace(/index\.html$/, ''); };
     return a.origin === location.origin && strip(a.pathname) === strip(location.pathname);
@@ -394,30 +390,36 @@
         document.activeElement.blur();
       }
     };
-    var distance = Math.abs(window.scrollY - y);
-    if (reduceMotion) { instantScroll(y); land(); return; }
-    if (distance < window.innerHeight * 1.5) {
-      window.scrollTo({ top: y, behavior: 'smooth' });
+    stopGlide();
+    var start = window.scrollY, dist = y - start;
+    if (reduceMotion || document.hidden || Math.abs(dist) < 2) { instantScroll(y); land(); return; }
+    var html = document.documentElement;
+    var duration = Math.min(1800, 450 + Math.sqrt(Math.abs(dist)) * 12);
+    var t0 = 0;
+    glide = { before: html.style.scrollBehavior, raf: 0 };
+    html.style.scrollBehavior = 'auto';                   // each step must land exactly
+    var step = function (now) {
+      if (!t0) t0 = now;
+      var t = Math.min(1, (now - t0) / duration);
+      window.scrollTo(0, Math.round(start + dist * easeInOut(t)));
+      scenes.forEach(renderScene);                        // draw this frame, not the next
+      if (t < 1) { glide.raf = requestAnimationFrame(step); return; }
+      stopGlide();
       land();
-      return;
-    }
-    if (!fade) {
-      fade = document.createElement('div');
-      fade.className = 'page-fade';
-      fade.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(fade);
-      fade.getBoundingClientRect();                       // start from transparent
-    }
-    fade.classList.add('on');
-    setTimeout(function () {
-      instantScroll(y);
-      scenes.forEach(function (s) { s.dirty = true; renderScene(s); });
-      var revealed = false;
-      var reveal = function () { if (revealed) return; revealed = true; fade.classList.remove('on'); land(); };
-      // Fade back in once the new spot has been drawn (with a timer as a backstop).
-      requestAnimationFrame(function () { requestAnimationFrame(reveal); });
-      setTimeout(reveal, 150);
-    }, 200);
+    };
+    glide.raf = requestAnimationFrame(step);
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (type) {
+      window.addEventListener(type, stopGlide, { passive: true });
+    });
+  }
+  function stopGlide() {
+    if (!glide) return;
+    cancelAnimationFrame(glide.raf);
+    document.documentElement.style.scrollBehavior = glide.before;
+    glide = null;
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (type) {
+      window.removeEventListener(type, stopGlide, { passive: true });
+    });
   }
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;

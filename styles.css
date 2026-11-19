@@ -359,8 +359,6 @@ button { font: inherit; letter-spacing: inherit; color: inherit; }
 }
 .localnav-in { display: flex; align-items: center; gap: var(--s5); height: 100%; }
 /* Long in-page jumps fade the page out and back in (site.js); the bars stay put. */
-.page-fade { position: fixed; inset: 0; z-index: 25; background: var(--bg); opacity: 0; pointer-events: none; transition: opacity 0.3s var(--ease); }
-.page-fade.on { opacity: 1; transition-duration: 0.18s; }
 
 .ln-title { margin-right: auto; font-size: clamp(1.0625rem, 1.6vw, 1.3125rem); font-weight: 600; letter-spacing: 0.005em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ln-title:active { opacity: 0.6; }
@@ -433,6 +431,11 @@ button { font: inherit; letter-spacing: inherit; color: inherit; }
   padding-block: calc(var(--nav-h) + var(--s5)) var(--s5);
 }
 .scenes-on .scene-copy { position: relative; display: block; height: min(60vh, 520px); }
+/* One beat (and one chapter) is always on. When the scroll passes the next
+   one, the old text slides out the way you are scrolling and fades fast,
+   while the new text slides in behind it, so the stage is never empty.
+   Waiting parts sit below; finished ones sit above, so scrolling back up
+   brings them down again. */
 .scenes-on .beat {
   position: absolute;
   inset: 0;
@@ -440,8 +443,17 @@ button { font: inherit; letter-spacing: inherit; color: inherit; }
   flex-direction: column;
   justify-content: center;
   opacity: 0;
+  translate: 0 40px;
   visibility: hidden;
-  will-change: opacity, transform;
+  transition: opacity 0.22s var(--ease-out), translate 0.5s var(--ease), visibility 0s 0.5s;
+  will-change: opacity, translate, scale;
+}
+.scenes-on .beat.is-past { translate: 0 -40px; }
+.scenes-on .beat.is-on {
+  opacity: 1;
+  translate: none;
+  visibility: visible;
+  transition: opacity 0.42s var(--ease-out) 0.04s, translate 0.8s var(--spring) 0.04s, visibility 0s;
 }
 .scenes-on .scene-media { aspect-ratio: auto; height: 100%; max-height: 780px; }
 .scenes-on .scene-media canvas { display: block; }
@@ -504,8 +516,15 @@ button { font: inherit; letter-spacing: inherit; color: inherit; }
 .panel-dark .card-stats b { font-size: clamp(3rem, 6.4vw, 5.75rem); }
 
 .scenes-on .scene--chapters .scene-stage { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0; }
-.scenes-on .chapter { position: absolute; inset: calc(var(--nav-h) + var(--s5)) 0 var(--s5); grid-template-rows: minmax(0, 1fr); padding: 0; visibility: hidden; }
-.scenes-on .chapter-copy, .scenes-on .chapter-media { opacity: 0; visibility: hidden; will-change: opacity, transform; }
+.scenes-on .chapter { position: absolute; inset: calc(var(--nav-h) + var(--s5)) 0 var(--s5); grid-template-rows: minmax(0, 1fr); padding: 0; visibility: hidden; transition: visibility 0s 0.7s; }
+.scenes-on .chapter.is-on { z-index: 1; visibility: visible; transition: visibility 0s; }
+.scenes-on .chapter-copy { opacity: 0; translate: 0 48px; transition: opacity 0.22s var(--ease-out), translate 0.5s var(--ease); will-change: opacity, translate; }
+.scenes-on .chapter.is-past .chapter-copy { translate: 0 -48px; }
+.scenes-on .chapter.is-on .chapter-copy { opacity: 1; translate: none; transition: opacity 0.42s var(--ease-out) 0.04s, translate 0.8s var(--spring) 0.04s; }
+/* Pictures cross-fade: the new one fades in on top while the old one holds
+   still underneath, then the old one goes. */
+.scenes-on .chapter-media { opacity: 0; transition: opacity 0.2s linear 0.5s; will-change: opacity; }
+.scenes-on .chapter.is-on .chapter-media { opacity: 1; transition: opacity 0.5s var(--ease); }
 .scenes-on .chapter-media { aspect-ratio: auto; height: 100%; max-height: 780px; align-self: center; }
 .scenes-on .chapter-media canvas { display: block; }
 .scenes-on .chapter-media .scene-fallback { visibility: hidden; }
