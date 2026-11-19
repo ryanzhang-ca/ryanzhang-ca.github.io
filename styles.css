@@ -685,6 +685,36 @@ html:not(.js) .carousel-controls { display: none; }
 .dotnav button::before { content: ""; position: absolute; inset: -14px -5px; }  /* a bigger target than the dot */
 .dotnav button[aria-current="true"] { width: 24px; background: var(--text); opacity: 1; }
 
+/* A short clip in a rounded frame. It plays, muted and looping,
+   while it is on screen, with a button to pause it. Without the script it
+   keeps the browser's own controls. */
+.clip { width: min(980px, 100% - 2 * var(--gutter), (100svh - 240px) * 1.7778); margin: var(--s7) auto 0; }
+.clip-frame { position: relative; overflow: hidden; border-radius: var(--radius-l); background: var(--card); box-shadow: 0 24px 60px -28px var(--shadow); }
+.clip video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.clip-btn {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  backdrop-filter: blur(12px) saturate(1.6);
+  cursor: pointer;
+  transition: background-color 0.15s, scale 0.1s var(--ease-out);
+}
+.clip-btn svg { width: 16px; height: 16px; }
+.clip-btn .i-play, .clip.is-paused .clip-btn .i-pause { display: none; }
+.clip.is-paused .clip-btn .i-play { display: block; }
+.clip-btn:active { scale: 0.92; }
+@media (hover: hover) { .clip-btn:hover { background: rgba(0, 0, 0, 0.62); } }
+
 .spec { margin-top: var(--s7); border-top: 1px solid var(--line); text-align: left; }
 .spec > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--s2) var(--s7); padding-block: var(--s4); border-bottom: 1px solid var(--line); }
 .spec dt { font-weight: 600; }

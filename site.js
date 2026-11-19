@@ -363,10 +363,35 @@
 
   // ---------- Jumps within a page ----------
   // Back to top, the project name in a project's bar, section links. The page
-  // really scrolls there, eased in and out, and takes longer the further it
-  // goes, but never more than 1.8 seconds. Any wheel, touch,
-  // key or click hands control straight back to you.
+  // really scrolls there, eased in and out. The long stretches where a scene
+  // is pinned to the screen are skipped: the scene just swaps back to its
+  // first part, so the trip takes as long as the page looks, not as long as
+  // it is. Any wheel, touch, key or click hands control straight back to you.
   var glide = null;
+  // Where each scene's stage is stuck to the screen, in page coordinates.
+  function pinnedStretches() {
+    var vh = window.innerHeight;
+    return scenes.map(function (s) {
+      var top = s.el.getBoundingClientRect().top + window.scrollY;
+      return [top, top + Math.max(0, s.el.offsetHeight - vh)];
+    }).filter(function (r) { return r[1] > r[0]; }).sort(function (a, b) { return a[0] - b[0]; });
+  }
+  // Distance as you see it: pinned stretches count for nothing.
+  function seenAt(y, pins) {
+    var v = y;
+    pins.forEach(function (r) { v -= Math.max(0, Math.min(y, r[1]) - r[0]); });
+    return v;
+  }
+  // Back from seen distance to a scroll position. Going up, a pinned stretch
+  // lands at its top; going down, at its bottom.
+  function scrollAt(v, pins, up) {
+    var y = v;
+    for (var i = 0; i < pins.length; i++) {
+      if (y > pins[i][0] || (y === pins[i][0] && !up)) y += pins[i][1] - pins[i][0];
+      else break;
+    }
+    return y;
+  }
   function samePage(a) {
     var strip = function (path) { return path.replace(/index\.html$/, ''); };
     return a.origin === location.origin && strip(a.pathname) === strip(location.pathname);
@@ -391,17 +416,18 @@
       }
     };
     stopGlide();
-    var start = window.scrollY, dist = y - start;
-    if (reduceMotion || document.hidden || Math.abs(dist) < 2) { instantScroll(y); land(); return; }
+    var start = window.scrollY, pins = pinnedStretches(), up = y < start;
+    var v0 = seenAt(start, pins), v1 = seenAt(y, pins), seen = v1 - v0;
+    if (reduceMotion || document.hidden || Math.abs(seen) < 2) { instantScroll(y); land(); return; }
     var html = document.documentElement;
-    var duration = Math.min(1800, 450 + Math.sqrt(Math.abs(dist)) * 12);
+    var duration = Math.min(1500, 400 + Math.sqrt(Math.abs(seen)) * 14);
     var t0 = 0;
     glide = { before: html.style.scrollBehavior, raf: 0 };
     html.style.scrollBehavior = 'auto';                   // each step must land exactly
     var step = function (now) {
       if (!t0) t0 = now;
       var t = Math.min(1, (now - t0) / duration);
-      window.scrollTo(0, Math.round(start + dist * easeInOut(t)));
+      window.scrollTo(0, t >= 1 ? y : Math.round(scrollAt(v0 + seen * easeInOut(t), pins, up)));
       scenes.forEach(renderScene);                        // draw this frame, not the next
       if (t < 1) { glide.raf = requestAnimationFrame(step); return; }
       stopGlide();
@@ -506,6 +532,39 @@
 
     c.classList.add('is-ready');
     update();
+  });
+
+  // ---------- Video clips ----------
+  // Muted and looping, playing only while mostly on screen. The button pauses
+  // it for good (until pressed again). With reduced motion it waits for a press.
+  Array.prototype.forEach.call(document.querySelectorAll('.clip'), function (clip) {
+    var video = clip.querySelector('video'), btn = clip.querySelector('.clip-btn');
+    if (!video || !btn) return;
+    video.removeAttribute('controls');
+    btn.hidden = false;
+    var held = reduceMotion, inView = false;
+    function show() {
+      var playing = !video.paused;
+      clip.classList.toggle('is-paused', !playing);
+      btn.setAttribute('aria-label', playing ? 'Pause video' : 'Play video');
+    }
+    function play() {
+      video.preload = 'auto';
+      var p = video.play();
+      if (p && p.catch) p.catch(function () { show(); });
+    }
+    video.addEventListener('play', show);
+    video.addEventListener('pause', show);
+    btn.addEventListener('click', function () {
+      if (video.paused) { held = false; play(); } else { held = true; video.pause(); }
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView && !held) play(); else if (!inView) video.pause();
+      }, { threshold: 0.5 }).observe(video);
+    }
+    show();
   });
 
   window.revealReady = true;
