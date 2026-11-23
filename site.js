@@ -192,7 +192,8 @@
 
   function makeLayer(s, canvas, from, to) {
     var L = { canvas: canvas, ctx: canvas.getContext('2d'), from: from, to: to, lastKey: '',
-              camera: JSON.parse(canvas.getAttribute('data-camera') || '[[0,0.5,0.5,1],[1,0.5,0.5,1]]') };
+              camera: JSON.parse(canvas.getAttribute('data-camera') || '[[0,0.5,0.5,1],[1,0.5,0.5,1]]'),
+              subject: JSON.parse(canvas.getAttribute('data-subject') || 'null') };
     var redraw = function () { s.dirty = true; requestTick(); };
     var frames = canvas.getAttribute('data-frames');
     if (frames) {
@@ -261,6 +262,17 @@
       }
     }
     return cam[cam.length - 1];
+  }
+
+  // With data-subject="[x0, y0, x1, y1]" (fractions of the photo), limit the
+  // zoom so the subject and a small margin always fit in the box, whatever
+  // its shape. The photo still always fills the box.
+  function fitZoom(img, subject, cw, ch, zoom) {
+    var iw = img.naturalWidth, ih = img.naturalHeight, margin = 0.04;
+    var base = Math.max(cw / iw, ch / ih);
+    var sw = (subject[2] - subject[0] + 2 * margin) * iw;
+    var sh = (subject[3] - subject[1] + 2 * margin) * ih;
+    return Math.max(1, Math.min(zoom, cw / (base * sw), ch / (base * sh)));
   }
 
   // Draw an image filling the canvas ("cover"), centred on (cx, cy) and zoomed,
@@ -338,10 +350,11 @@
         }
       } else if (L.img && L.img.complete && L.img.naturalWidth) {
         var c = cameraAt(L.camera, q);
-        var k = c[1].toFixed(4) + ',' + c[2].toFixed(4) + ',' + c[3].toFixed(4) + ':' + cw + 'x' + ch;
+        var z = L.subject ? fitZoom(L.img, L.subject, cw, ch, c[3]) : c[3];
+        var k = c[1].toFixed(4) + ',' + c[2].toFixed(4) + ',' + z.toFixed(4) + ':' + cw + 'x' + ch;
         if (k !== L.lastKey || s.dirty) {
           L.ctx.clearRect(0, 0, cw, ch);
-          drawCover(L.ctx, L.img, cw, ch, c[1], c[2], c[3]);
+          drawCover(L.ctx, L.img, cw, ch, c[1], c[2], z);
           L.lastKey = k;
         }
       }

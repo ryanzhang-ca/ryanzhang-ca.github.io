@@ -977,6 +977,12 @@ tbody th { font-weight: 600; }
   .chapter-copy .unit-tag { font-size: 1.0625rem; }
   .scenes-on .chapter { inset: calc(var(--nav-h) + var(--s3)) 0 var(--s4); grid-template-rows: minmax(0, 1fr) auto; align-items: stretch; }
   .scenes-on .chapter-media { order: -1; max-height: none; }
+  /* Photos stay square on phones, so a square subject isn't cut off at the
+     sides; photo and text sit together in the middle. Very short screens give the
+     photo less height rather than squeezing the text. */
+  .scenes-on .chapter:has(.is-photo) { grid-template-rows: auto auto; align-content: center; }
+  .scenes-on .chapter-media.is-photo { aspect-ratio: 1 / 1; height: auto; max-height: max(220px, 100svh - 430px); align-self: start; }
+  .scenes-on .chapter:has(.is-photo) .chapter-copy { align-self: start; }
   .scenes-on .chapter-title { grid-template-rows: minmax(0, 1fr); align-items: center; }
   .chapter-copy .ctas { margin-top: var(--s4); }
   .panel-dark .card-stats b { font-size: clamp(2.5rem, 11vw, 3.5rem); }
